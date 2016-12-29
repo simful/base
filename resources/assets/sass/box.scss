@@ -1,0 +1,23 @@
+.box {
+	border: 1px solid #eee;
+	background: #fff;
+	margin-bottom: 10px;
+
+	.box-header {
+		padding: 15px 10px;
+		border-bottom: 1px solid #eee;
+		margin: 0 10px;
+		color: #2ab0ed;
+		font-size: 1.25em;
+		font-weight: bold;
+	}
+
+	.box-body {
+		padding: 20px;
+	}
+
+	.box-footer {
+		border-top: 1px solid #f5f5f5;
+		padding: 20px;
+	}
+}
