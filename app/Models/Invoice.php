@@ -52,4 +52,41 @@ class Invoice extends Model
         $relation = array_get($this->relations, 'amountSum');
         return $relation ? $relation->aggregate : null;
     }
+
+    function finalize()
+    {
+        // add transaction journal.
+        $transaction = new Transaction;
+        $transaction->save();
+
+        $details = [
+            [
+                'account_id' => '', // asset
+                'debit' => $this->total[0]->price,
+                'credit' => 0
+            ],
+            [
+                'account_id' => '', // penjualan
+                'debit' => 0,
+                'credit' => $this->total[0]->price
+            ],
+            [
+                'account_id' => '', // hpp
+                'debit' => $this->total[0]->price_nett,
+                'credit' => 0
+            ],
+            [
+                'account_id' => '',
+                'debit' => 0,
+                'credit' => $this->total[0]->price_nett
+            ]
+        ];
+
+        $transaction->details()->saveMany($details);
+
+        // lock this invoice
+        $this->status = 'Completed';
+
+        return $transaction;
+    }
 }

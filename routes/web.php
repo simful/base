@@ -10,27 +10,6 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-Route::get('test', function()
-{
-    $c = new Carbon\Carbon;
-
-    return dd($c instanceof Carbon\Carbon);
-});
-
-function m($input) {
-    return 'Rp ' . number_format($input, 2, '.', ',');
-}
-
-function mp($input) {
-    return 'Rp <span class="pull-right">' . number_format($input, 2, '.', ',') . '</span>';
-}
-
-function d($input) {
-    if (!($input instanceof Carbon\Carbon)) {
-        $input = new Carbon\Carbon($input);
-    }
-    return $input->toFormattedDateString();
-}
 
 Route::get('/', function () {
     if (Auth::check())

@@ -56,6 +56,10 @@ class DemoSeeder extends Seeder
             ['account_group_id' => 3, 'name' => 'Hutang Bank Jangka Panjang'],
             ['account_group_id' => 3, 'name' => 'Hutang Pajak'],
             ['account_group_id' => 3, 'name' => 'Hutang Gaji'],
+            ['account_group_id' => 3, 'name' => 'Hutang PPh'],
+            ['account_group_id' => 3, 'name' => 'Hutang PPN'],
+            ['account_group_id' => 3, 'name' => 'PPN Keluaran'],
+            ['account_group_id' => 3, 'name' => 'PPN Masukan'],
             ['account_group_id' => 5, 'name' => 'Modal'],
             ['account_group_id' => 6, 'name' => 'Prive'],
             ['account_group_id' => 6, 'name' => 'Ikhtisar Laba-rugi'],
@@ -117,5 +121,17 @@ class DemoSeeder extends Seeder
                 ]);
             }));
         });
+
+        Tax::create([
+            'code' => 'PPN',
+            'name' => 'Pajak Pertambahan Nilai',
+            'rate' => 0.1
+        ]);
+
+        Tax::create([
+            'code' => 'PPh',
+            'name' => 'Pajak Penghasilan',
+            'rate' => 0.05
+        ]);
     }
 }
