@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use User;
+use User, Hash;
 
 class UsersController extends Controller
 {
@@ -40,11 +40,27 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email'
+            'email' => 'required|email',
         ]);
 
-        $user = new User($request->all());
-        $user->user_id = Auth::id();
+        $user = new User($request->except('password', 'verify_password'));
+
+        if ($request->has('password') && strlen($request->get('password')) > 5)
+        {
+            if ($request->get('password') == $request->get('verify_password'))
+            {
+                $user->password = Hash::make($request->get('password'));
+            }
+            else
+            {
+                return back()->with('message', 'New password and verify password did not match.');
+            }
+        }
+        else
+        {
+            return back()->with('message', 'Password length must be 6 or more characters.');
+        }
+
         $user->save();
 
         return redirect('users');
@@ -89,7 +105,24 @@ class UsersController extends Controller
         ]);
 
         $user = User::find($id);
-        $user->fill($request->all());
+        $user->fill($request->except('password', 'verify_password'));
+
+        if ($request->has('password') && strlen($request->get('password')) > 5)
+        {
+            if ($request->get('password') == $request->get('verify_password'))
+            {
+                $user->password = Hash::make($request->get('password'));
+            }
+            else
+            {
+                return back()->with('message', 'New password and verify password did not match.');
+            }
+        }
+        else
+        {
+            return back()->with('message', 'Password length must be 6 or more characters.');
+        }
+
         $user->save();
 
         return redirect('users');

@@ -39,6 +39,18 @@
 				<textarea class="form-control" id="address" name="address">{{ old('email', $user->address) }}</textarea>
 			</div>
 
+			<hr>
+
+			<div class="form-group">
+				<label class="control-label" for="password">Password</label>
+				<input class="form-control" type="password" id="password" name="password">
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="verify_password">Verify Password</label>
+				<input class="form-control" type="password" id="verify_password" name="verify_password">
+			</div>
+
 			<button class="btn btn-primary" type="submit">
 				<i class="fa fa-check"></i>
 				Save Changes

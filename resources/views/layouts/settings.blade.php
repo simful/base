@@ -65,20 +65,20 @@
 						</div>
 					</div>
 				</div>
-				@if (isset($settings_footer))
-					<div class="box-footer">
-						@if (Session::has('message'))
-							<div class="alert alert-success">
-								{{ Session::get('message') }}
-							</div>
-						@endif
 
+				<div class="box-footer">
+					@if (Session::has('message'))
+						<div class="alert alert-success">
+							{{ Session::get('message') }}
+						</div>
+					@endif
+					@if (isset($settings_footer))
 						<button type="submit" class="btn btn-primary">
 							<i class="fa fa-check"></i>
 							Save Changes
 						</button>
-					</div>
-				@endif
+					@endif
+				</div>
 			</div>
 		</div>
 	@if (isset($settings_footer))
