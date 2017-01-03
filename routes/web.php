@@ -53,4 +53,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('reports/payables', 'ReportController@payables');
     Route::get('reports/income-statement', 'ReportController@incomeStatement');
     Route::get('reports/trial-balance', 'ReportController@trialBalance');
+
+    Route::resource('users', 'UsersController');
 });

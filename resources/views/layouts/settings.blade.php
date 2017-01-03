@@ -5,8 +5,10 @@
 @endsection
 
 @section('content')
-	<form id="settingsForm" action="{{ url('settings') }}" method="post">
-		{{ csrf_field() }}
+	@if (isset($settings_footer))
+		<form id="settingsForm" action="{{ url('settings') }}" method="post">
+			{{ csrf_field() }}
+	@endif
 		<div class="container">
 			<div class="box">
 				<div class="box-header">Settings</div>
@@ -27,7 +29,7 @@
 									</a>
 								</li>
 								<li ui-sref-active="active" class="">
-									<a href="{{ url('settings/users') }}">
+									<a href="{{ url('users') }}">
 										<i class="fa fa-user fa-btn"></i>
 										Users
 									</a>
@@ -63,19 +65,23 @@
 						</div>
 					</div>
 				</div>
-				<div class="box-footer">
-					@if (Session::has('message'))
-						<div class="alert alert-success">
-							{{ Session::get('message') }}
-						</div>
-					@endif
+				@if (isset($settings_footer))
+					<div class="box-footer">
+						@if (Session::has('message'))
+							<div class="alert alert-success">
+								{{ Session::get('message') }}
+							</div>
+						@endif
 
-					<button type="submit" class="btn btn-primary">
-						<i class="fa fa-check"></i>
-						Save Changes
-					</button>
-				</div>
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-check"></i>
+							Save Changes
+						</button>
+					</div>
+				@endif
 			</div>
 		</div>
+	@if (isset($settings_footer))
 	</form>
+	@endif
 @endsection

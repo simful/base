@@ -37,8 +37,8 @@ class SettingsController extends Controller
 
         $agent = Agent::find(Auth::user()->agent_id);
         $settings = (object)(array_merge($default_settings, (array)json_decode($agent->settings)));
-
-        return view('settings.' . $page, compact('settings'));
+        $settings_footer = true;
+        return view('settings.' . $page, compact('settings', 'settings_footer'));
 	}
 
 	public function save(Request $request)

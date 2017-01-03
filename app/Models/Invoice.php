@@ -89,4 +89,31 @@ class Invoice extends Model
 
         return $transaction;
     }
+
+    function cancel()
+    {
+        if ($this->status == 'Draft')
+        {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    function confirmPayment()
+    {
+
+    }
+
+    function ship()
+    {
+
+    }
+
+    function receive()
+    {
+        $this->status = 'Completed';
+        $this->save();
+    }
 }
