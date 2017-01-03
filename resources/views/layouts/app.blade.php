@@ -207,12 +207,6 @@
             $('.datepicker').datetimepicker({
                 format: 'YYYY-MM-DD'
             });
-            $('a').each(function() {
-                console.log($(this).attr('href'));
-                if ($(this).attr('href') == window.location) {
-                    $(this).parent().addClass('active');
-                }
-            });
 		});
 	</script>
     @yield('scripts')
