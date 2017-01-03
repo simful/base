@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('profile', 'ProfileController@update');
 
     Route::get('settings/{page?}', 'SettingsController@index');
-    Route::post('settings', 'SettingsController@set');
+    Route::post('settings', 'SettingsController@save');
 
     Route::resource('expenses', 'ExpensesController');
     Route::get('stock', 'StockController@index');

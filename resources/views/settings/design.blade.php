@@ -23,15 +23,15 @@
 		<div class="form-group">
 			<label class="control-label">Posisi Logo</label>
 			<select class="form-control" value="agent_settings.data.logo_position">
-				<option value="left">Kiri</option>
-				<option value="top">Atas</option>
+				<option value="left" {{ $settings->logo_position == 'left' ? 'selected' : '' }}>Kiri</option>
+				<option value="top" {{ $settings->logo_position == 'top' ? 'selected' : '' }}>Atas</option>
 			</select>
 		</div>
 
 		<div class="form-group">
 			<label class="control-label">Ukuran</label>
 			<div class="input-group">
-				<input type="number" value="agent_settings.data.logo_size" class="form-control text-right">
+				<input type="number" value="{{ $settings->logo_size }}" name="logo_size" class="form-control text-right">
 				<span class="input-group-addon">px</span>
 			</div>
 		</div>
@@ -40,12 +40,12 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="control-label">Header</label>
-			<textarea class="form-control" rows="6" value="agent_settings.data.document_header"></textarea>
+			<textarea class="form-control" rows="6" value="{{ $settings->header_content }}" name="header_content"></textarea>
 		</div>
 
 		<div class="form-group">
 			<label class="control-label">Footer</label>
-			<textarea class="form-control" rows="6" value="agent_settings.data.document_footer"></textarea>
+			<textarea class="form-control" rows="6" value="{{ $settings->footer_content }}" name="footer_content"></textarea>
 		</div>
 	</div>
 @stop
