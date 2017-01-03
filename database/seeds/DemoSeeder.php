@@ -90,7 +90,7 @@ class DemoSeeder extends Seeder
                 $gid = $account['account_group_id'];
             }
 
-            $account['id'] = $account['account_group_id'] . '0' . $count . '0';
+            $account['id'] = ($account['account_group_id'] * 1000) + ($count * 10);
             Account::create($account);
         }
 
