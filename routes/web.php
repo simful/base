@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('transactions', 'TransactionController');
     Route::resource('accounts', 'AccountController');
     Route::resource('products', 'ProductsController');
+    Route::resource('taxes', 'TaxesController');
 
     Route::get('profile', 'ProfileController@index');
     Route::get('profile/edit', 'ProfileController@edit');
