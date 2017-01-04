@@ -8,18 +8,33 @@
 <div class="container dash">
     <div class="row">
         <div class="col-md-6">
-            <div class="box">
-                <div class="box-header">Online Orders</div>
+            <div class="box no-padding">
+                <div class="box-header">New Orders</div>
                 <div class="box-body">
-
+                    <table class="table">
+                        @foreach ($invoices as $invoice)
+                            <tr>
+                                <td>#{{ $invoice->id }}</td>
+                                <td>{{ $invoice->customer->name }}</td>
+                                <td class="text-right">{{ m($invoice->total[0]->price) }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="box">
+            <div class="box no-padding">
                 <div class="box-header">Last Transactions</div>
                 <div class="box-body">
-
+                    <table class="table">
+                        @foreach ($transactions as $transaction)
+                            <tr>
+                                <td>{{ $transaction->description }}</td>
+                                <td class="text-right">{{ m($transaction->details()->sum('debit')) }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>
@@ -28,53 +43,63 @@
     <div class="row">
         <div class="col-md-4">
             <div class="box">
-                <div class="box-header">Penjualan</div>
+                <div class="box-header">Sales</div>
                 <div class="box-body">
                     <div class="form-group">
-                        <label>Belum Dibayar</label>
-                        <p>{!! mp(0) !!}</p>
+                        <label>Unpaid</label>
+                        <p>{!! mp($sales->unpaid) !!}</p>
                     </div>
 
                     <div class="form-group">
-                        <label>Jatuh Tempo</label>
-                        <p>{!! mp(0) !!}</p>
+                        <label>Due</label>
+                        <p>{!! mp($sales->due) !!}</p>
                     </div>
 
                     <div class="form-group">
-                        <label>Lunas</label>
-                        <p>{!! mp(0) !!}</p>
+                        <label>Paid</label>
+                        <p>{!! mp($sales->paid) !!}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="box">
-                <div class="box-header">Pembelian</div>
+                <div class="box-header">Purchases</div>
                 <div class="box-body">
                     <div class="form-group">
-                        <label>Belum Dibayar</label>
-                        <p>{!! mp(0) !!}</p>
+                        <label>Unpaid</label>
+                        <p>{!! mp($purchases->unpaid) !!}</p>
                     </div>
 
                     <div class="form-group">
-                        <label>Jatuh Tempo</label>
-                        <p>{!! mp(0) !!}</p>
+                        <label>Due</label>
+                        <p>{!! mp($purchases->due) !!}</p>
                     </div>
 
                     <div class="form-group">
-                        <label>Lunas</label>
-                        <p>{!! mp(0) !!}</p>
+                        <label>Paid</label>
+                        <p>{!! mp($purchases->paid) !!}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="box">
-                <div class="box-header">Biaya</div>
+            <div class="box no-padding">
+                <div class="box-header">Expenses</div>
                 <div class="box-body">
-                    <p>
-                        <i>Belum ada pengeluaran.</i>
-                    </p>
+                    <table class="table">
+                        @foreach ($expenses as $expense)
+                            <tr>
+                                <td>{{ $expense->name }}</td>
+                                <td class="text-right">{{ m($expense->total) }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                    @if (!count($transactions))
+                        <p>
+                            <i>Belum ada pengeluaran.</i>
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>
@@ -82,15 +107,33 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="box">
+            <div class="box no-padding">
                 <div class="box-header">Cash and Bank</div>
-                <div class="box-body"></div>
+                <div class="box-body">
+                    <table class="table">
+                        @foreach ($cash as $item)
+                            <tr>
+                                <td>{{ $item->name }}</td>
+                                <td class="text-right">{{ m($item->balance) }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="box">
+            <div class="box no-padding">
                 <div class="box-header">Stock</div>
-                <div class="box-body"></div>
+                <div class="box-body">
+                    <table class="table">
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>{{ $product->name }}</td>
+                                <td class="text-right">{{ $product->stock }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             </div>
         </div>
     </div>

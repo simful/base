@@ -20,6 +20,7 @@ class CreateAccountsTable extends Migration
             $table->boolean('has_reference')->default(false);
             $table->boolean('is_locked')->default(false);
             $table->boolean('is_header')->default(false);
+            $table->decimal('balance', 18, 2)->default(0);
             $table->timestamps();
         });
 
