@@ -78,7 +78,7 @@ class InvoicesController extends Controller
     public function show($id)
     {
         $invoice = Invoice::with('total')->find($id);
-        return view('invoices.show', compact('invoice'));
+        return view('invoices.show', compact('invoice', 'allow'));
     }
 
     /**
@@ -144,4 +144,16 @@ class InvoicesController extends Controller
 
         return $item;
     }
+
+    public function process(Request $request, $id)
+    {
+        if ($request->action) {
+            $invoice = Invoice::find($id);
+            $invoice->process($request->action);
+        }
+
+        return $invoice;
+    }
+
+
 }

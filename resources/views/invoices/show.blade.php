@@ -56,27 +56,43 @@
 
 					<div class="col-md-6">
 						<div class="pull-right">
-							<a href="{{ url("invoices/$invoice->id/edit") }}" class="btn btn-default">
-								<i class="fa fa-pencil"></i>
-								Edit Invoice
-							</a>
-							@if ($invoice->paid)
+
+							@if ($invoice->status == 'Draft')
+								<a href="{{ url("invoices/$invoice->id/edit") }}" class="btn btn-default">
+									<i class="fa fa-pencil"></i>
+									Edit Invoice
+								</a>
+
+								<a href="{{ url("invoices/$invoice->id/edit") }}" class="btn btn-default">
+									<i class="fa fa-trash"></i>
+									Delete Invoice
+								</a>
+
+								<button class="btn btn-primary invoice-action" data-action="send" data-id="{{ $invoice->id }}">
+									<i class="fa fa-arrow-right"></i>
+									Send
+								</button>
+							@endif
+
+							@if ($invoice->status == 'Sent')
+								<button class="btn btn-primary invoice-action" data-action="confirm-payment" data-id="{{ $invoice->id }}">
+									<i class="fa fa-arrow-right"></i>
+									Receive Payment...
+								</button>
+								<button class="btn btn-default">Cancel &amp; Delete Invoice</button>
+							@endif
+
+							@if ($invoice->status == 'Shipping')
+								<button class="btn btn-default">Cancel Shipping</button>
+							@endif
+
+							@if ($invoice->status == 'In Progress')
 								<button class="btn btn-primary">{{ trans('invoice.print_receipt') }}...</button>
 								<button class="btn btn-primary">{{ trans('invoice.request_refund') }}</button>
-							@else
-								@if ( ! in_array($invoice->status, ['Payment Confirmation', 'Canceled']))
-									<form method="post" style="display: inline" action="{{ url('invoices/confirm/' . $invoice->id) }}">
-										{{ csrf_field() }}
-										<button class="btn btn-primary">{{ trans('invoice.confirm_payment') }}...</button>
-									</form>
-								@endif
+							@endif
 
-								@if ($invoice->status != 'Canceled')
-									<form method="post" style="display: inline" action="{{ url('invoices/cancel/' . $invoice->id) }}">
-										{{ csrf_field() }}
-										<button class="btn btn-default">{{ trans('invoice.cancel_order') }}</button>
-									</form>
-								@endif
+							@if ($invoice->status == 'Completed')
+
 							@endif
 						</div>
 					</div>
@@ -103,7 +119,9 @@
 								<th>{{ trans('cart.qty') }}</th>
 								<th class="text-right">Unit Price</th>
 								<th class="text-right">Subtotal</th>
-								<th class="actions"></th>
+								@if ($invoice->status == 'Draft')
+									<th class="actions"></th>
+								@endif
 							</tr>
 						</thead>
 						<tbody>
@@ -113,38 +131,45 @@
 									<td>{{ $item->qty }}</td>
 									<td class="text-right">{{ m($item->price) }}</td>
 									<td class="text-right">{{ m($item->price * $item->qty) }}</td>
-									<td>
-										<button class="btn btn-default delete-item" type="button" data-id="{{ $item->id }}">
-											<i class="fa fa-times"></i>
-										</button>
-									</td>
+									@if ($invoice->status == 'Draft')
+										<td>
+											<button class="btn btn-default delete-item" type="button" data-id="{{ $item->id }}">
+												<i class="fa fa-times"></i>
+											</button>
+										</td>
+									@endif
 								</tr>
 							@endforeach
 
-							<tr>
-								<td>
-									<input type="text" placeholder="Description" name="description" class="form-control">
-								</td>
-								<td style="max-width: 100px">
-									<input type="number" placeholder="Qty" name="qty" class="form-control">
-								</td>
-								<td>
-									<input type="number" placeholder="Unit Price" name="price" class="form-control">
-								</td>
-								<td class="text-right">
-									<button class="btn btn-primary" type="submit">
-										<i class="fa fa-plus"></i>
-										Add Item
-									</button>
-								</td>
-								<td></td>
-							</tr>
+							@if ($invoice->status == 'Draft')
+								<tr>
+									<td>
+										<input type="text" placeholder="Description" name="description" class="form-control">
+									</td>
+									<td style="max-width: 100px">
+										<input type="number" placeholder="Qty" name="qty" class="form-control">
+									</td>
+									<td>
+										<input type="number" placeholder="Unit Price" name="price" class="form-control">
+									</td>
+
+									<td class="text-right">
+										<button class="btn btn-primary" type="submit">
+											<i class="fa fa-plus"></i>
+											Add Item
+										</button>
+									</td>
+									<td></td>
+								</tr>
+							@endif
 						</tbody>
 						<tfoot>
 							<tr>
 								<th colspan="3">{{ trans('cart.total') }}</th>
 								<th class="text-right">{{ m(count($invoice->total) ? $invoice->total[0]->price : 0) }}</th>
-								<th></th>
+								@if ($invoice->status == 'Draft')
+									<th></th>
+								@endif
 							</tr>
 						</tfoot>
 					</table>
@@ -178,6 +203,17 @@
 						}
 					});
 				}
+			});
+
+			$('.invoice-action').click(function() {
+				var itemId = $(this).attr('data-id');
+				var action = $(this).attr('data-action');
+				$.ajax('/invoices/' + itemId + '/process?action=' + action, {
+					method: 'POST',
+					complete: function() {
+						location.reload();
+					}
+				});
 			});
 		});
 	</script>

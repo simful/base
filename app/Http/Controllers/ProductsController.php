@@ -20,7 +20,6 @@ class ProductsController extends Controller
             $q = $request->get('q');
             $products->orWhere('name', 'LIKE', "%$q%");
             $products->orWhere('description', 'LIKE', "%$q%");
-            $products->orWhere('price', 'LIKE', "%$q%");
         }
 
         $products = $products->paginate(5);

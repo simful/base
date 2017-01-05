@@ -53,67 +53,78 @@ class Invoice extends Model
         return $relation ? $relation->aggregate : null;
     }
 
-    function finalize()
+    function post()
     {
         // add transaction journal.
         $transaction = new Transaction;
+        $transaction->description = 'Invoice #' . $this->id;
+        $transaction->user_id = Auth::id();
         $transaction->save();
 
         $details = [
-            [
-                'account_id' => '', // asset
+            new TransactionDetail([
+                'account_id' => 1010, // asset
                 'debit' => $this->total[0]->price,
                 'credit' => 0
-            ],
-            [
-                'account_id' => '', // penjualan
+            ]),
+            new TransactionDetail([
+                'account_id' => 7010, // penjualan
                 'debit' => 0,
                 'credit' => $this->total[0]->price
-            ],
-            [
-                'account_id' => '', // hpp
-                'debit' => $this->total[0]->price_nett,
+            ]),
+            new TransactionDetail([
+                'account_id' => 8010, // hpp
+                'debit' => $this->total[0]->net ?: 0,
                 'credit' => 0
-            ],
-            [
-                'account_id' => '',
+            ]),
+            new TransactionDetail([
+                'account_id' => 1030,
                 'debit' => 0,
-                'credit' => $this->total[0]->price_nett
-            ]
+                'credit' => $this->total[0]->net ?: 0
+            ])
         ];
 
         $transaction->details()->saveMany($details);
 
-        // lock this invoice
-        $this->status = 'Completed';
-
         return $transaction;
     }
 
-    function cancel()
+    public function getActionMap()
     {
-        if ($this->status == 'Draft')
-        {
+        $action_map = [
+            'Draft' => ['send', 'delete'],
+            'Sent' => ['confirm-payment', 'cancel'],
+            'In Progress' => ['ship', 'complete', 'cancel'],
+            'Shipping' => ['receive', 'complain'],
+            'Completed' => ['refund']
+        ];
 
-            return true;
+        return $action_map[$this->status];
+    }
+
+    public function process($action)
+    {
+        switch ($action) {
+            case 'delete':
+                $this->destroy();
+                return;
+            case 'confirm-payment':
+                // lock this invoice
+                $this->post();
+                $this->status = 'In Progress';
+                break;
+            case 'cancel':
+                $this->status = 'Canceled';
+                break;
+            case 'send':
+                // print or email it or both
+                $this->status = 'Sent';
+                break;
+            case 'receive':
+                $this->status = 'Completed';
+                break;
         }
 
-        return false;
-    }
-
-    function confirmPayment()
-    {
-
-    }
-
-    function ship()
-    {
-
-    }
-
-    function receive()
-    {
-        $this->status = 'Completed';
         $this->save();
     }
 }

@@ -11,18 +11,6 @@
 |
 */
 
-Route::get('test', function() {
-    $invoice = Invoice::first();
-    $agent = Agent::first();
-    return view('invoices.receipt', compact('invoice', 'agent'));
-});
-
-Route::get('testr', function() {
-    $invoice = Invoice::first();
-    $agent = Agent::first();
-    return view('invoices.email', compact('invoice', 'agent'));
-});
-
 Route::get('/', function () {
     if (Auth::check())
         return redirect('home');
@@ -36,6 +24,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('invoices/add-item/{id}', 'InvoicesController@addItem');
     Route::post('invoices/remove-item/{id}', 'InvoicesController@removeItem');
+    Route::any('invoices/{id}/process', 'InvoicesController@process');
     Route::resource('invoices', 'InvoicesController');
 
     Route::post('purchases/add-item/{id}', 'PurchaseController@addItem');
