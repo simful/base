@@ -21,6 +21,9 @@
                         @endforeach
                     </table>
                 </div>
+                <div class="box-footer text-right">
+                    <a href="{{ url('invoices') }}">See all <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
@@ -35,6 +38,9 @@
                             </tr>
                         @endforeach
                     </table>
+                </div>
+                <div class="box-footer text-right">
+                    <a href="{{ url('transactions') }}">See all <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
@@ -60,6 +66,9 @@
                         <p>{!! mp($sales->paid) !!}</p>
                     </div>
                 </div>
+                <div class="box-footer text-right">
+                    <a href="{{ url('invoices') }}">See all <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -81,6 +90,9 @@
                         <p>{!! mp($purchases->paid) !!}</p>
                     </div>
                 </div>
+                <div class="box-footer text-right">
+                    <a href="{{ url('purchases') }}">See all <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -101,6 +113,9 @@
                         </p>
                     @endif
                 </div>
+                <div class="box-footer text-right">
+                    <a href="{{ url('expenses') }}">See all <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
             </div>
         </div>
     </div>
@@ -119,6 +134,9 @@
                         @endforeach
                     </table>
                 </div>
+                <div class="box-footer text-right">
+                    <a href="{{ url('accounts') }}">See all <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
@@ -133,6 +151,9 @@
                             </tr>
                         @endforeach
                     </table>
+                </div>
+                <div class="box-footer text-right">
+                    <a href="{{ url('stock') }}">See all <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
