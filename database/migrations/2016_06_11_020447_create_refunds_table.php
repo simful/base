@@ -12,7 +12,7 @@ class CreateRefundsTable extends Migration
      */
     public function up()
     {
-        Schema::create('refunds', function (Blueprint $table) {
+        Schema::connection('tenant')->create('refunds', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('invoice_id')->index();
             $table->decimal('amount', 18, 2);
@@ -29,6 +29,6 @@ class CreateRefundsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('refunds');
+        Schema::connection('tenant')->drop('refunds');
     }
 }

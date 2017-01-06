@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
+    public $connection = 'tenant';
     public $fillable = [
         'customer_id',
         'user_id',

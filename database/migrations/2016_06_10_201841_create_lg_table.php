@@ -12,7 +12,7 @@ class CreateLgTable extends Migration
      */
     public function up()
     {
-        Schema::create('letter_guarantees', function (Blueprint $table) {
+        Schema::connection('tenant')->create('letter_guarantees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('supplier_id')->index();
             $table->date('date')->nullable();
@@ -22,7 +22,7 @@ class CreateLgTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('letter_guarantee_details', function (Blueprint $table) {
+        Schema::connection('tenant')->create('letter_guarantee_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('letter_id')->index();
             $table->text('description');
@@ -38,7 +38,7 @@ class CreateLgTable extends Migration
      */
     public function down()
     {
-        Schema::drop('letter_guarantee_details');
-        Schema::drop('letter_guarantees');
+        Schema::connection('tenant')->drop('letter_guarantee_details');
+        Schema::connection('tenant')->drop('letter_guarantees');
     }
 }

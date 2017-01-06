@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
+	public $connection = 'tenant';
 	public $fillable = ['name', 'address', 'city', 'state', 'country', 'phone', 'email', 'website',
 		'is_customer', 'is_supplier', 'is_company'];
 	public static $rules = ['name' => 'required'];

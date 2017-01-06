@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Purchase extends Model
 {
+    public $connection = 'tenant';
     public $guarded = [
         'id',
 		'created_at',

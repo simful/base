@@ -12,7 +12,7 @@ class CreateInvoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function (Blueprint $table) {
+        Schema::connection('tenant')->create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('customer_id')->index();
             $table->integer('user_id')->index();
@@ -25,7 +25,7 @@ class CreateInvoicesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('invoice_details', function (Blueprint $table) {
+        Schema::connection('tenant')->create('invoice_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('invoice_id')->index();
             $table->integer('product_id')->nullable();
@@ -44,7 +44,7 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('invoice_details');
-        Schema::drop('invoices');
+        Schema::connection('tenant')->drop('invoice_details');
+        Schema::connection('tenant')->drop('invoices');
     }
 }

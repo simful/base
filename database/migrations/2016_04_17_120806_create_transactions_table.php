@@ -12,7 +12,7 @@ class CreateTransactionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::connection('tenant')->create('transactions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->index();
             $table->date('date')->nullable();
@@ -20,7 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('transaction_details', function (Blueprint $table) {
+        Schema::connection('tenant')->create('transaction_details', function (Blueprint $table) {
             $table->integer('transaction_id')->index();
             $table->integer('account_id')->index();
             $table->decimal('debit', 18, 2)->default(0);
@@ -39,7 +39,7 @@ class CreateTransactionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('transaction_details');
-        Schema::drop('transactions');
+        Schema::connection('tenant')->drop('transaction_details');
+        Schema::connection('tenant')->drop('transactions');
     }
 }

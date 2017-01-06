@@ -13,7 +13,7 @@ class CreateTaxesTable extends Migration
      */
     public function up()
     {
-        Schema::create('taxes', function(Blueprint $table) {
+        Schema::connection('tenant')->create('taxes', function(Blueprint $table) {
             $table->increments('id');
             $table->string('code')->nullable();
             $table->string('name');
@@ -28,6 +28,6 @@ class CreateTaxesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('taxes');
+        Schema::connection('tenant')->drop('taxes');
     }
 }

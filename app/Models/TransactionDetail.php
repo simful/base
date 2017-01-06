@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionDetail extends Model
 {
+    public $connection = 'tenant';
     public $fillable = ['account_id', 'debit', 'credit'];
     public static $rules = [];
 	public $timestamps = false;

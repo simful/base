@@ -12,7 +12,7 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::connection('tenant')->create('accounts', function (Blueprint $table) {
             $table->integer('id')->primary();
             $table->integer('account_group_id')->index();
             $table->string('name');
@@ -24,7 +24,7 @@ class CreateAccountsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('account_groups', function (Blueprint $table) {
+        Schema::connection('tenant')->create('account_groups', function (Blueprint $table) {
             $table->integer('id')->primary();
             $table->string('name');
             $table->enum('type', ['Permanent', 'Temporary']);
@@ -39,7 +39,7 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('account_groups');
-        Schema::drop('accounts');
+        Schema::connection('tenant')->drop('account_groups');
+        Schema::connection('tenant')->drop('accounts');
     }
 }

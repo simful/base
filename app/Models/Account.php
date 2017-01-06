@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
+    public $connection = 'tenant';
     public $fillable = ['id', 'name', 'account_group_id'];
     public static $rules = ['name' => 'required'];
 

@@ -12,7 +12,7 @@ class CreateContactsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contacts', function (Blueprint $table) {
+        Schema::connection('tenant')->create('contacts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('address')->nullable();
@@ -35,6 +35,6 @@ class CreateContactsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('contacts');
+        Schema::connection('tenant')->drop('contacts');
     }
 }

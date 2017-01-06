@@ -13,7 +13,7 @@ class CreatePurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('purchases', function (Blueprint $table) {
+        Schema::connection('tenant')->create('purchases', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('supplier_id')->index();
             $table->integer('user_id')->index();
@@ -30,7 +30,7 @@ class CreatePurchasesTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('purchase_details', function (Blueprint $table) {
+        Schema::connection('tenant')->create('purchase_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('purchase_id')->index();
             $table->integer('product_id')->nullable();
@@ -49,7 +49,7 @@ class CreatePurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('purchases');
-        Schema::drop('purchase_details');
+        Schema::connection('tenant')->drop('purchases');
+        Schema::connection('tenant')->drop('purchase_details');
     }
 }

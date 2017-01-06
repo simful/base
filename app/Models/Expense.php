@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
+	public $connection = 'tenant';
 	public $guarded = ['id', 'created_at', 'updated_at'];
 
 	function source_account()

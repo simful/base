@@ -13,7 +13,7 @@ class CreateExpensesTable extends Migration
      */
     public function up()
     {
-        Schema::create('expenses', function (Blueprint $table) {
+        Schema::connection('tenant')->create('expenses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('supplier_id')->nullable();
             $table->integer('user_id')->index();
@@ -37,6 +37,6 @@ class CreateExpensesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('expenses');
+        Schema::connection('tenant')->drop('expenses');
     }
 }
