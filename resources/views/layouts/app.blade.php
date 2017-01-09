@@ -112,6 +112,12 @@
                                     <li>
                                         <a href="{{ url('transactions') }}">Journal</a>
                                     </li>
+
+                                    <li class="divider">
+
+                                    <li>
+                                        <a href="{{ url('taxes') }}">Tax</a>
+                                    </li>
                                 </ul>
                             </li>
 
