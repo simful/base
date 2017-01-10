@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth, Agent;
+use Auth, Agent, Image;
 
 class SettingsController extends Controller
 {
@@ -55,4 +55,21 @@ class SettingsController extends Controller
 
         return back()->with('message', 'Changes saved.');
 	}
+
+    function uploadLogo(Request $request)
+    {
+        // default values:
+        $defaults = [
+            'shape' => 'square'
+        ];
+
+        Image::make($request->file('logo'))
+            ->resize(null, 512, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+            ->save(public_path('logo') . '/' . md5(Auth::user()->agent_id) . '.jpg');
+
+        return redirect()->back();
+    }
 }

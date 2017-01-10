@@ -41,6 +41,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('profile/edit', 'ProfileController@edit');
     Route::put('profile', 'ProfileController@update');
 
+    Route::get('settings/company', 'CompanyController@edit');
+    Route::post('settings/company', 'CompanyController@update');
+    Route::post('settings/upload-logo', 'SettingsController@uploadLogo');
     Route::get('settings/{page?}', 'SettingsController@index');
     Route::post('settings', 'SettingsController@save');
 

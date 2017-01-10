@@ -3,24 +3,6 @@
 @section('settings')
 	<div class="col-md-6">
 		<div class="form-group">
-			<label class="control-label">Logo</label>
-			<img src="" class="img img-responsive" style="max-width: 100px">
-		</div>
-
-		<div class="form-group">
-			<form action="/api/settings/upload-logo" method="post" enctype="multipart/form-data">
-				<label class="control-label">Upload Logo</label>
-				<input type="file" accept="image/*" name="logo" class="mbot20">
-				<button class="btn btn-primary btn-sm" type="submit">
-					<i class="fa fa-upload fa-btn"></i>
-					Upload
-				</button>
-			</form>
-		</div>
-
-		<hr>
-
-		<div class="form-group">
 			<label class="control-label">Posisi Logo</label>
 			<select class="form-control" value="agent_settings.data.logo_position">
 				<option value="left" {{ $settings->logo_position == 'left' ? 'selected' : '' }}>Kiri</option>
