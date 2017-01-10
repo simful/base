@@ -16,7 +16,7 @@
                             <tr>
                                 <td>#{{ $invoice->id }}</td>
                                 <td>{{ $invoice->customer->name }}</td>
-                                <td class="text-right">{{ m($invoice->total[0]->price) }}</td>
+                                <td class="text-right">{{ count($invoice->total) ? m($invoice->total[0]->price) : m(0) }}</td>
                             </tr>
                         @endforeach
                     </table>

@@ -92,7 +92,8 @@ class InvoicesController extends Controller
     {
         $is_edit = true;
         $invoice = Invoice::find($id);
-        return view('invoices.form', compact('invoice', 'is_edit'));
+        $customers = Contact::orderBy('name')->get();
+        return view('invoices.form', compact('invoice', 'customers', 'is_edit'));
     }
 
     /**
@@ -104,7 +105,16 @@ class InvoicesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'customer_id' => 'required',
+        ]);
+
+        $invoice = Invoice::find($id);
+        $invoice->fill($request->all());
+        $invoice->user_id = Auth::id();
+        $invoice->save();
+
+        return redirect('invoices/' .  $invoice->id);
     }
 
     /**
