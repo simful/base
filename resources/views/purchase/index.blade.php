@@ -19,7 +19,7 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-2 text-center">
-							<a href="{{ url('customers/' . $purchase->supplier->id) }}">
+							<a href="{{ url('contacts/' . $purchase->supplier->id) }}">
 								<img class="img" src="{{ $purchase->supplier->avatar }}" style="height: 100px; margin-top: 20px">
 								<p>{{ $purchase->supplier->name }}</p>
 							</a>

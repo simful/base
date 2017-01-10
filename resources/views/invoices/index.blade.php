@@ -27,7 +27,7 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-md-2 text-center">
-							<a href="{{ url('customers/' . $invoice->customer->id) }}">
+							<a href="{{ url('contacts/' . $invoice->customer->id) }}">
 								<img class="img" src="{{ $invoice->customer->avatar }}" style="height: 100px; margin-top: 20px">
 								<p>{{ $invoice->customer->name }}</p>
 							</a>

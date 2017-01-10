@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('purchases/remove-item/{id}', 'PurchaseController@removeItem');
     Route::resource('purchases', 'PurchaseController');
 
-    Route::resource('customers', 'CustomersController');
+    Route::resource('contacts', 'ContactsController');
     Route::resource('transactions', 'TransactionController');
     Route::resource('accounts', 'AccountController');
     Route::resource('products', 'ProductsController');
