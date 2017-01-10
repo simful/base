@@ -30,9 +30,13 @@
 					<label for="supplier_id">Vendor/Supplier</label>
 					<select id="supplier_id" name="supplier_id" class="form-control selectize-single">
 						@foreach ($suppliers as $supplier)
-							<option {{ $purchase->supplier_id == $supplier->id ? 'selected' : '' }} value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+							<option {{ $supplier->id == Request::get('contact_id', $purchase->supplier_id) ? 'selected' : '' }} value="{{ $supplier->id }}">{{ $supplier->name }}</option>
 						@endforeach
 					</select>
+					<a class="btn btn-primary" style="margin-top: 10px" href="{{ url('contacts/create?next=/' . Request::path() ) }}">
+						<i class="fa fa-plus"></i>
+						New Supplier
+					</a>
 				</div>
 			</div>
 

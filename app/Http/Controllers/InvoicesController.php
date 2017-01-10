@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Invoice, InvoiceDetail;
+use Invoice, InvoiceDetail, Contact;
 use Auth;
 
 class InvoicesController extends Controller
@@ -42,7 +42,8 @@ class InvoicesController extends Controller
     {
         $is_edit = false;
         $invoice = new Invoice;
-        return view('invoices.form', compact('invoice', 'is_edit'));
+        $customers = Contact::orderBy('name')->get();
+        return view('invoices.form', compact('invoice', 'customers', 'is_edit'));
     }
 
     /**

@@ -95,6 +95,12 @@
                                     <li>
                                         <a href="{{ url('expenses') }}">Expenses</a>
                                     </li>
+
+                                    <li class="divider">
+
+                                    <li>
+                                        <a href="{{ url('contacts') }}">Contacts</a>
+                                    </li>
                                 </ul>
                             </li>
 

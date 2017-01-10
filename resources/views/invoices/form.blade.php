@@ -35,8 +35,12 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<label class="control-label">Customer</label>
-								<input type="text" name="customer_id" class="form-control" value="{{ old('customer_id', $invoice->customer_id) }}">
-								<a class="btn btn-primary" style="margin-top: 10px">
+								<select id="customer_id" name="customer_id" class="form-control selectize-single">
+									@foreach ($customers as $customer)
+										<option {{ $customer->id == Request::get('contact_id', $invoice->customer_id) ? 'selected' : '' }} value="{{ $customer->id }}">{{ $customer->name }}</option>
+									@endforeach
+								</select>
+								<a class="btn btn-primary" style="margin-top: 10px" href="{{ url('contacts/create?next=/' . Request::path()) }}">
 									<i class="fa fa-plus"></i>
 									New Customer
 								</a>
