@@ -16,8 +16,8 @@
 			<div class="box-body">
 				<div class="row">
 					<div class="col-md-3">
-						<label>{{ trans('invoice.order_by') }}</label>
-						<p>{{ Auth::user()->name }}</p>
+						<label>Supplier</label>
+						<p>{{ $purchase->supplier->name }}</p>
 					</div>
 					<div class="col-md-3">
 						<label>{{ trans('invoice.order_date') }}</label>
@@ -56,7 +56,7 @@
 
 					<div class="col-md-6">
 						<div class="pull-right">
-							<a href="{{ url("invoices/$purchase->id/edit") }}" class="btn btn-default">
+							<a href="{{ url("purchases/$purchase->id/edit") }}" class="btn btn-default">
 								<i class="fa fa-pencil"></i>
 								Edit Invoice
 							</a>
@@ -123,7 +123,12 @@
 
 							<tr>
 								<td>
-									<input type="text" placeholder="Description" name="description" class="form-control">
+									<select name="product_id" id="product_id" class="form-control selectize-single">
+										@foreach ($products as $product)
+											<option value="{{ $product->id }}">{{ $product->name }}</option>
+										@endforeach
+									</select>
+									<input type="text" placeholder="Description" name="description" class="form-control hide">
 								</td>
 								<td style="max-width: 100px">
 									<input type="number" placeholder="Qty" name="qty" class="form-control">

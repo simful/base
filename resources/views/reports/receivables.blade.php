@@ -28,12 +28,13 @@
 							<tr>
 								<td>{{ $row->customer->name }}</td>
 								<td>{{ d($row->due_date) }}</td>
-								<td class="text-right">{{ $row->due_date->diffInDays() < 0 ? m($row->total[0]->price - $row->amount_paid) : '' }}</td>
-								<td class="text-right">{{ $row->due_date->diffInDays() < 30 && $row->due_date->diffInDays() >= 0 ? m($row->total[0]->price - $row->amount_paid) : '' }}</td>
-								<td class="text-right">{{ $row->due_date->diffInDays() < 60 && $row->due_date->diffInDays() >= 30 ? m($row->total[0]->price - $row->amount_paid) : '' }}</td>
-								<td class="text-right">{{ $row->due_date->diffInDays() > 60 ? m($row->total[0]->price - $row->amount_paid) : '' }}</td>
+								<?php $amount = count($row->total) ? m($row->total[0]->price - $row->amount_paid) : 0; ?>
+								<td class="text-right">{{ $row->due_date->diffInDays() < 0 ? $amount : '' }}</td>
+								<td class="text-right">{{ $row->due_date->diffInDays() < 30 && $row->due_date->diffInDays() >= 0 ? $amount : '' }}</td>
+								<td class="text-right">{{ $row->due_date->diffInDays() < 60 && $row->due_date->diffInDays() >= 30 ? $amount : '' }}</td>
+								<td class="text-right">{{ $row->due_date->diffInDays() > 60 ? $amount : '' }}</td>
 							</tr>
-							<?php $total += $row->total[0]->price - $row->amount_paid; ?>
+							<?php $total += $amount; ?>
 						@endforeach
 						<tr>
 							<th>Total</th>

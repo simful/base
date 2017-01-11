@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Invoice, InvoiceDetail, Contact;
+use Invoice, InvoiceDetail, Contact, Product;
 use Auth;
 
 class InvoicesController extends Controller
@@ -79,7 +79,8 @@ class InvoicesController extends Controller
     public function show($id)
     {
         $invoice = Invoice::with('total')->find($id);
-        return view('invoices.show', compact('invoice', 'allow'));
+        $products = Product::orderBy('name')->get();
+        return view('invoices.show', compact('invoice', 'products'));
     }
 
     /**
@@ -133,7 +134,8 @@ class InvoicesController extends Controller
     public function addItem(Request $request, $id)
     {
         $this->validate($request, [
-            'description' => 'required',
+            'product_id' => 'required_without_all:description',
+            'description' => 'required_without_all:product_id',
             'qty' => 'required|numeric',
             'price' => 'required|numeric',
         ]);
@@ -143,9 +145,6 @@ class InvoicesController extends Controller
         $item->save();
 
         return back();
-
-        $invoice = Invoice::find($id);
-        $invoice->details()->create($request->all());
     }
 
     public function removeItem($id)

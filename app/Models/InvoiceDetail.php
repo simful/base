@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class InvoiceDetail extends Model
 {
     public $connection = 'tenant';
-    public $fillable = ['company_id', 'supplier_id', 'description', 'qty', 'price', 'price_nett'];
+    public $fillable = ['product_id', 'company_id', 'supplier_id', 'description', 'qty', 'price', 'price_nett'];
     public static $rules = [];
 
     function invoice() {
@@ -18,6 +18,10 @@ class InvoiceDetail extends Model
 
     function supplier() {
         return $this->belongsTo('Company', 'supplier_id');
+    }
+
+    function product() {
+        return $this->belongsTo('Product');
     }
 
     protected $appends = ['display'];

@@ -57,6 +57,15 @@
 				Cancel and Refund
 			</a>
 		</li>
+
+		<li class="divider"></li>
+
+		<li>
+			<a href="#" onclick="window.print()">
+				<i class="fa fa-check-circle"></i>
+				Complete Transaction
+			</a>
+		</li>
 	@endif
 
 	@if ($invoice->status == 'Completed')

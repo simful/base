@@ -79,7 +79,7 @@
 							<table class="table">
 								<thead>
 									<tr>
-										<th>{{ trans('cart.item') }}</th>
+										<th style="min-width: 150px">{{ trans('cart.item') }}</th>
 										<th>{{ trans('cart.qty') }}</th>
 										<th class="text-right">Unit Price</th>
 										<th class="text-right">Subtotal</th>
@@ -91,7 +91,7 @@
 								<tbody>
 									@foreach ($invoice->details as $item)
 										<tr>
-											<td>{{ $item->description }}</td>
+											<td>{{ $item->product_id ? $item->product->name : $item->description }}</td>
 											<td>{{ $item->qty }}</td>
 											<td class="text-right">{{ m($item->price) }}</td>
 											<td class="text-right">{{ m($item->price * $item->qty) }}</td>
@@ -108,7 +108,12 @@
 									@if ($invoice->status == 'Draft')
 										<tr>
 											<td>
-												<input type="text" placeholder="Description" name="description" class="form-control">
+												<select name="product_id" class="form-control selectize-single">
+													@foreach ($products as $product)
+														<option value="{{ $product->id }}">{{ $product->name }}</option>
+													@endforeach
+												</select>
+												<input type="text" placeholder="Description" name="description" class="form-control hide">
 											</td>
 											<td style="max-width: 100px">
 												<input type="number" placeholder="Qty" name="qty" class="form-control">

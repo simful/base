@@ -7,7 +7,7 @@ class Product extends Model
 	public $connection = 'tenant';
 	public $fillable = ['name', 'buy_price', 'sell_price', 'description', 'is_active'];
 	public $appends = ['picture'];
-	public $casts = [
+	protected $casts = [
 		'is_active' => 'boolean'
 	];
 

@@ -59,7 +59,7 @@
 					<div class="form-group">
 						<input type="hidden" name="is_active" value="0">
 						<label>
-						    <input type="checkbox" name="is_active" {{ $product->is_active ? 'checked' : '' }}>
+						    <input type="checkbox" value="1" name="is_active" {{ $product->is_active ? 'checked' : '' }}>
 							Active
 						</label>
 					</div>

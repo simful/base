@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('invoices/add-item/{id}', 'InvoicesController@addItem');
     Route::post('invoices/remove-item/{id}', 'InvoicesController@removeItem');
     Route::any('invoices/{id}/process', 'InvoicesController@process');
+    Route::get('invoices/email/{id}', 'InvoiceController@email');
+    Route::get('invoices/receipt/{id}', 'InvoiceController@receipt');
     Route::resource('invoices', 'InvoicesController');
 
     Route::post('purchases/add-item/{id}', 'PurchaseController@addItem');
