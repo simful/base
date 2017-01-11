@@ -48,17 +48,21 @@
 							<p>{{ $product->description }}</p>
 
 							<div class="row">
-								<div class="col-md-4 separate-col">
+								<div class="col-md-3 separate-col">
 									<label>Buy Price</label>
 									<p>{{ m($product->buy_price) }}</p>
 								</div>
-								<div class="col-md-4 separate-col">
+								<div class="col-md-3 separate-col">
 									<label>Sell Price</label>
 									<p>{{ m($product->sell_price) }}</p>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-3">
 									<label>Margin</label>
 									<p>{{ m($product->sell_price - $product->buy_price) }}</p>
+								</div>
+								<div class="col-md-3">
+									<label>Stock</label>
+									<p>{{ $product->stock }}</p>
 								</div>
 							</div>
 							<p></p>

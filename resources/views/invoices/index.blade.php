@@ -36,7 +36,7 @@
 							<div class="row">
 								<div class="col-md-3" style="border-right: 1px solid #ccc">
 									<label>{{ trans('invoice.invoice') }} #{{ $invoice->id }}</label>
-									<p><span class="label label-success">{{ $invoice->status }}</span></p>
+									<p><span class="label invoice-status {{ str_slug(strtolower($invoice->status)) }}">{{ $invoice->status }}</span></p>
 								</div>
 								<div class="col-md-3" style="border-right: 1px solid #ccc">
 									<label>{{ trans('invoice.due_date') }}</label>

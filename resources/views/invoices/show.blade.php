@@ -48,7 +48,7 @@
 									@else
 										<span class="label label-default">{{ trans('invoice.unpaid') }}</span>
 									@endif
-									<span class="label label-default">{{ $invoice->status }}</span>
+									<span class="label invoice-status {{ str_slug(strtolower($invoice->status)) }}">{{ $invoice->status }}</span>
 								</p>
 							</div>
 
@@ -158,14 +158,7 @@
 				</div>
 			</div>
 			<div class="col-md-4 col-lg-3">
-				<div class="box no-padding">
-					<div class="box-header">
-						Actions
-					</div>
-					<div class="box-body">
-						@include('invoices.actions')
-					</div>
-				</div>
+				@include('invoices.actions')
 			</div>
 		</div>
 	</div>
@@ -195,6 +188,17 @@
 						location.reload();
 					}
 				});
+			});
+
+			$('.delete-invoice').click(function() {
+				if (confirm('Are you sure you want to delete this invoice?')) {
+					$.ajax('/invoices/' + $(this).attr('data-id'), {
+						method: 'DELETE',
+						complete: function() {
+							window.location = '/invoices';
+						}
+					});
+				}
 			});
 		});
 	</script>

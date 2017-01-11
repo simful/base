@@ -100,7 +100,7 @@
 						<thead>
 							<tr>
 								<th>{{ trans('cart.item') }}</th>
-								<th>{{ trans('cart.qty') }}</th>
+								<th class="text-right">{{ trans('cart.qty') }}</th>
 								<th class="text-right">Unit Price</th>
 								<th class="text-right">Subtotal</th>
 								<th class="actions"></th>
@@ -110,7 +110,7 @@
 							@foreach ($purchase->details as $item)
 								<tr>
 									<td>{{ $item->description }}</td>
-									<td>{{ $item->qty }}</td>
+									<td class="text-right">{{ $item->qty }}</td>
 									<td class="text-right">{{ m($item->price) }}</td>
 									<td class="text-right">{{ m($item->price * $item->qty) }}</td>
 									<td>
@@ -131,7 +131,7 @@
 									<input type="text" placeholder="Description" name="description" class="form-control hide">
 								</td>
 								<td style="max-width: 100px">
-									<input type="number" placeholder="Qty" name="qty" class="form-control">
+									<input type="number" placeholder="Qty" name="qty" class="form-control text-right" value="1">
 								</td>
 								<td>
 									<input type="number" placeholder="Unit Price" name="price" class="form-control">

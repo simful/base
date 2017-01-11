@@ -118,10 +118,14 @@ class Invoice extends Model
                 $this->status = 'Canceled';
                 break;
             case 'send':
+                // prevent empty invoice
+                if ( ! count($this->total[0]) )
+                    return;
+
                 // print or email it or both
                 $this->status = 'Sent';
                 break;
-            case 'receive':
+            case 'complete':
                 $this->status = 'Completed';
                 break;
         }
