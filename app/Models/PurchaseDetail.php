@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class PurchaseDetail extends Model
 {
     public $connection = 'tenant';
-    public $fillable = ['company_id', 'supplier_id', 'description', 'qty', 'price', 'price_nett'];
+    public $fillable = ['company_id', 'supplier_id', 'product_id', 'description', 'qty', 'price', 'price_nett'];
     public static $rules = [];
 
     function purchase() {
@@ -18,5 +18,9 @@ class PurchaseDetail extends Model
 
     function supplier() {
         return $this->belongsTo('Company', 'supplier_id');
+    }
+
+    function product() {
+        return $this->belongsTo('Product', 'product_id');
     }
 }

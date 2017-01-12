@@ -90,6 +90,14 @@ class Invoice extends Model
         return $transaction;
     }
 
+    public function updateStock()
+    {
+        foreach ($this->details as $detail) {
+            $detail->product->stock -= $detail->qty;
+            $detail->product->save();
+        }
+    }
+
     public function getActionMap()
     {
         $action_map = [
@@ -112,6 +120,7 @@ class Invoice extends Model
             case 'confirm-payment':
                 // lock this invoice
                 $this->post();
+                $this->updateStock();
                 $this->status = 'In Progress';
                 break;
             case 'cancel':

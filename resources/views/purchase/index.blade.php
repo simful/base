@@ -28,7 +28,7 @@
 							<div class="row">
 								<div class="col-md-3" style="border-right: 1px solid #ccc">
 									<label>{{ trans('invoice.invoice') }} #{{ $purchase->id }}</label>
-									<p><span class="label label-success">{{ $purchase->status }}</p>
+									<p><span class="label invoice-status {{ str_slug(strtolower($purchase->status)) }}">{{ $purchase->status }}</p>
 								</div>
 								<div class="col-md-3" style="border-right: 1px solid #ccc">
 									<label>{{ trans('invoice.due_date') }}</label>

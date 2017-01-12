@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Contact, Product;
+use Contact, Product, Transaction, TransactionDetail;
 use Purchase, PurchaseDetail;
 use Auth;
 
@@ -75,7 +75,8 @@ class PurchaseController extends Controller
 	public function addItem(Request $request, $id)
     {
         $this->validate($request, [
-            'description' => 'required',
+			'product_id' => 'required_without_all:description',
+            'description' => 'required_without_all:product_id',
             'qty' => 'required|numeric',
             'price' => 'required|numeric',
         ]);
@@ -102,55 +103,12 @@ class PurchaseController extends Controller
     {
 		$purchase = Purchase::find($id);
 
-		// add transaction journal
-		$transaction = new Transaction;
-		$transaction->description = "Purchase Order #$id";
-		$transaction->user_id = Auth::id();
-		$transaction->save();
-
-		// we need 2 parameters:
-		// source account (default: cash)
-		// destination account (default: deposit)
-
-		$details = [
-            new TransactionDetail([
-                'account_id' => 1010, // asset
-                'debit' => $this->total[0]->price,
-                'credit' => 0
-            ]),
-            new TransactionDetail([
-                'account_id' => 7010, // penjualan
-                'debit' => 0,
-                'credit' => $this->total[0]->price
-            ])
-        ];
-
-        $transaction->details()->saveMany($details);
-
-
-		// update stock now
-
-		foreach ($purchase->details as $item)
+		if (count($purchase->details))
 		{
-			$product = Product::find($item->product_id);
-
-			if ($product == null) // create new
-			{
-				$product = new Product([
-					'name' => $item->description,
-					'buy_price' => $item->price,
-					'stock' => $item->qty,
-				]);
-			}
-			else
-			{
-				$product->stock += $item->qty;
-			}
-
-			$product->save();
+			$purchase->process();
 		}
 
-        return $transaction;
+		return $purchase;
     }
 
 

@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::post('purchases/add-item/{id}', 'PurchaseController@addItem');
     Route::post('purchases/remove-item/{id}', 'PurchaseController@removeItem');
+    Route::any('purchases/{id}/process', 'PurchaseController@process');
     Route::resource('purchases', 'PurchaseController');
 
     Route::resource('contacts', 'ContactsController');

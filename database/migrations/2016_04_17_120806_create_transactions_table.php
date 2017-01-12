@@ -26,6 +26,7 @@ class CreateTransactionsTable extends Migration
             $table->decimal('debit', 18, 2)->default(0);
             $table->decimal('credit', 18, 2)->default(0);
             $table->integer('reference_id')->index()->nullable();
+            $table->integer('weight')->default(0);
             $table->enum('ref_type', ['none', 'company', 'customer'])->nullable();
 
             $table->primary(['transaction_id', 'account_id']);
