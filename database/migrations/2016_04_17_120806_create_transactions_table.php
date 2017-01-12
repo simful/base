@@ -21,6 +21,7 @@ class CreateTransactionsTable extends Migration
         });
 
         Schema::connection('tenant')->create('transaction_details', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('transaction_id')->index();
             $table->integer('account_id')->index();
             $table->decimal('debit', 18, 2)->default(0);
@@ -28,8 +29,6 @@ class CreateTransactionsTable extends Migration
             $table->integer('reference_id')->index()->nullable();
             $table->integer('weight')->default(0);
             $table->enum('ref_type', ['none', 'company', 'customer'])->nullable();
-
-            $table->primary(['transaction_id', 'account_id']);
         });
     }
 

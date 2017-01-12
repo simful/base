@@ -28,10 +28,10 @@
 							<td rowspan="{{ count($transaction->details) + 1 }}">{{ $transaction->created_at->toFormattedDateString() }}</td>
 							<td colspan="3" class="text-bold">{{ $transaction->description }}</td>
 							<td rowspan="{{ count($transaction->details) + 1 }}" style="white-space: nowrap">
-								<a class="btn btn-default" href="/transactions/{{ $transaction->id }}/edit">
+								<a class="btn btn-default" href="/transactions/{{ $transaction->id }}">
 									<i class="fa fa-pencil"></i>
 								</a>&nbsp;
-								<a class="btn btn-default">
+								<a class="btn btn-default delete-transaction" data-id="{{ $transaction->id }}">
 									<i class="fa fa-trash"></i>
 								</a>
 							</td>
@@ -51,4 +51,22 @@
 			</div>
 		</div>
 	</div>
+@stop
+
+@section('scripts')
+	<script>
+		$(document).ready(function() {
+			$('.delete-transaction').click(function() {
+				if (confirm('Are you sure you want to delete this transaction?')) {
+					$.ajax('/transactions/' + $(this).attr('data-id'), {
+						method: 'delete',
+						complete: function(data) {
+							console.log(data);
+							//location.reload();
+						}
+					});
+				}
+			});
+		});
+	</script>
 @stop

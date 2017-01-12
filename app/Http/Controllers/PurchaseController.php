@@ -86,9 +86,6 @@ class PurchaseController extends Controller
         $item->save();
 
         return back();
-
-        $purchase = Purchase::find($id);
-        $purchase->details()->create($request->all());
     }
 
     public function removeItem($id)
@@ -103,7 +100,7 @@ class PurchaseController extends Controller
     {
 		$purchase = Purchase::find($id);
 
-		if (count($purchase->details))
+		if (count($purchase->details) && $purchase->status == 'Draft')
 		{
 			$purchase->process();
 		}

@@ -35,6 +35,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('purchases', 'PurchaseController');
 
     Route::resource('contacts', 'ContactsController');
+    Route::post('transactions/add-item/{id}', 'TransactionController@addItem');
+    Route::post('transactions/remove-item/{id}', 'TransactionController@removeItem');
     Route::resource('transactions', 'TransactionController');
     Route::resource('accounts', 'AccountController');
     Route::resource('products', 'ProductsController');
