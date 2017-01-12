@@ -1,9 +1,11 @@
 @extends('layouts.settings')
 
 @section('settings')
-	<div class="form-group">
-		<img src="/logo/{{ md5(Auth::user()->agent_id) }}.jpg" style="max-height: 200px; max-width: 200px"/>
-	</div>
+	@if (File::exists(public_path() . "/logo/" . md5(Auth::user()->agent_id) . '.jpg'))
+		<div class="form-group">
+			<img src="/logo/{{ md5(Auth::user()->agent_id) }}.jpg" style="max-height: 200px; max-width: 200px"/>
+		</div>
+	@endif
 
 	<form action="/settings/upload-logo" method="post" enctype="multipart/form-data">
 		<label class="control-label">Upload Logo</label>
