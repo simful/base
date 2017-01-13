@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Product;
+use Product, Image, Auth, File;
 
 class ProductsController extends Controller
 {
@@ -119,5 +119,25 @@ class ProductsController extends Controller
         $product->delete();
 
         return $product;
+    }
+
+    function upload(Request $request, $id)
+    {
+        // default values:
+        $defaults = [
+            'shape' => 'square'
+        ];
+
+        if ( ! File::exists(public_path('products/' . Auth::user()->agent_id)))
+            mkdir(public_path('products/' . Auth::user()->agent_id));
+
+        Image::make($request->file('picture'))
+            ->resize(null, 512, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+            ->save(public_path('products') . '/' . Auth::user()->agent_id . '/' . $id . '.jpg');
+
+        return redirect()->back();
     }
 }

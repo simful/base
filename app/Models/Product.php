@@ -13,6 +13,9 @@ class Product extends Model
 
 	public function getPictureAttribute()
 	{
-		return url('/img/upload_icon.png');
+		if (File::exists(public_path() . "/products/" . Auth::user()->agent_id . "/$this->id.jpg"))
+			return url('/products/' . Auth::user()->agent_id . '/' . $this->id . '.jpg');
+		else
+			return url('/img/upload_icon.png');
 	}
 }
