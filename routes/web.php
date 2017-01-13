@@ -39,8 +39,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('transactions/remove-item/{id}', 'TransactionController@removeItem');
     Route::resource('transactions', 'TransactionController');
     Route::resource('accounts', 'AccountController');
-    Route::post('products/{id}/upload', 'ProductsController@upload');
     Route::resource('products', 'ProductsController');
+    Route::post('products/{id}/upload', 'ProductsController@upload');
     Route::resource('taxes', 'TaxesController');
 
     Route::get('profile', 'ProfileController@index');
