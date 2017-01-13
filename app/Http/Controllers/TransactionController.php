@@ -10,9 +10,7 @@ class TransactionController extends Controller
     function index()
     {
         $transactions = Transaction::orderBy('created_at', 'desc')
-            ->with(['details' => function($query) {
-                $query->orderBy('credit');
-            }])
+            ->with('details')
             ->paginate(5);
 
         return view('transactions.index', compact('transactions'));
