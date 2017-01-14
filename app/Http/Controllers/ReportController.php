@@ -60,7 +60,8 @@ class ReportController extends Controller
 		$group = $request->get('group');
 
         $query = DB::table('transaction_details')
-            ->whereAccountId(8010)
+            ->whereAccountId(1030)
+            ->where('debit', '>', 0)
             ->join('transactions', 'transactions.id', '=', 'transaction_details.transaction_id');
 
         if ($group == 1) {
