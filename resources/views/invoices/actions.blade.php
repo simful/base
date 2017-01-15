@@ -58,14 +58,16 @@
 					</a>
 				</li>
 
-				<hr>
-
 				<li>
 					<a href="#" class="invoice-action" data-action="complete" data-id="{{ $invoice->id }}">
 						<i class="fa fa-check-circle fa-icon"></i>
 						Complete Transaction
 					</a>
 				</li>
+
+				<hr>
+
+
 			@endif
 
 			@if ($invoice->status == 'Completed')
