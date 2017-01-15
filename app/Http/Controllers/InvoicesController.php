@@ -137,11 +137,22 @@ class InvoicesController extends Controller
             'product_id' => 'required_without_all:description',
             'description' => 'required_without_all:product_id',
             'qty' => 'required|numeric',
-            'price' => 'required|numeric',
+            //'price' => 'required|numeric',
         ]);
 
-        $item = new InvoiceDetail($request->all());
-        $item->invoice_id = $id;
+        $product = Product::find($request->product_id);
+
+        $item = InvoiceDetail::whereInvoiceId($id)->whereProductId($request->product_id)->first();
+
+        if ($item) {
+            $item->qty += $request->qty;
+        } else {
+            $item = new InvoiceDetail($request->all());
+            $item->invoice_id = $id;
+            $item->price = $product->sell_price;
+            $item->price_nett = $product->buy_price;
+        }
+
         $item->save();
 
         return back();

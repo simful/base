@@ -78,11 +78,16 @@ class PurchaseController extends Controller
 			'product_id' => 'required_without_all:description',
             'description' => 'required_without_all:product_id',
             'qty' => 'required|numeric',
-            'price' => 'required|numeric',
+            'price' => 'numeric',
         ]);
 
         $item = new PurchaseDetail($request->all());
-        $item->purchase_id = $id;
+		$item->purchase_id = $id;
+
+		if ($request->product_id) {
+			$item->price = $request->price > 0 ? $request->price : Product::find($request->product_id)->buy_price;
+		}
+
         $item->save();
 
         return back();
