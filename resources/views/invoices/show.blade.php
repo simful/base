@@ -116,7 +116,7 @@
 												<input type="text" placeholder="Description" name="description" class="form-control hide">
 											</td>
 											<td style="max-width: 100px">
-												<input type="number" placeholder="Qty" name="qty" class="form-control">
+												<input type="number" placeholder="Qty" name="qty" class="form-control" value="1">
 											</td>
 											<td>
 												<input type="number" placeholder="Unit Price" name="price" class="form-control">
