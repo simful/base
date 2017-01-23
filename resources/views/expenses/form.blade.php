@@ -31,7 +31,7 @@
 							<div class="form-group">
 								<label for="source_account_id" class="control-label">From</label>
 								<select name="source_account_id" id="source_account_id" class="form-control selectize-single">
-									@foreach ($accounts as $account)
+									@foreach ($source_accounts as $account)
 										<option {{ old('source_account_id', $expense->source_account_id) == $account->id ? 'selected' : '' }} value="{{ $account->id }}">{{ $account->name }}</option>
 									@endforeach
 								</select>
@@ -40,7 +40,7 @@
 							<div class="form-group">
 								<label for="expense_account_id" class="control-label">To</label>
 								<select name="expense_account_id" id="expense_account_id" class="form-control selectize-single">
-									@foreach ($accounts as $account)
+									@foreach ($expense_accounts as $account)
 										<option {{ old('expense_account_id', $expense->expense_account_id) == $account->id ? 'selected' : '' }} value="{{ $account->id }}">{{ $account->name }}</option>
 									@endforeach
 								</select>
@@ -54,7 +54,7 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label for="amount" class="control-label">Description</label>
-								<textarea rows="8" class="form-control" name="notes" id="amount">{{ old('notes', $expense->notes) }}</textarea>
+								<textarea rows="8" class="form-control" name="description" id="description">{{ old('description', $expense->description) }}</textarea>
 							</div>
 						</div>
 					</div>

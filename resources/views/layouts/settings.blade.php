@@ -29,6 +29,12 @@
 									</a>
 								</li>
 								<li ui-sref-active="active" class="">
+									<a href="{{ url('settings/accounts') }}">
+										<i class="fa fa-exchange fa-btn"></i>
+										Default Accounts
+									</a>
+								</li>
+								<li ui-sref-active="active" class="">
 									<a href="{{ url('users') }}">
 										<i class="fa fa-user fa-btn"></i>
 										Users

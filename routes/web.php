@@ -10,6 +10,9 @@
 | to using a Closure or controller method. Build something great!
 |
 */
+Route::get('test', function() {
+    return Setting::get('default_cogs_account');
+});
 
 Route::get('/', function () {
     if (Auth::check())
@@ -28,6 +31,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::any('invoices/{id}/process', 'InvoicesController@process');
     Route::get('invoices/email/{id}', 'InvoicesController@email');
     Route::get('invoices/receipt/{id}', 'InvoicesController@receipt');
+    Route::get('invoices/{id}/pay', 'InvoicesController@showPayForm');
+    Route::post('invoices/{id}/pay', 'InvoicesController@pay');
     Route::resource('invoices', 'InvoicesController');
 
     Route::post('purchases/add-item/{id}', 'PurchaseController@addItem');
@@ -54,6 +59,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('settings/{page?}', 'SettingsController@index');
     Route::post('settings', 'SettingsController@save');
 
+    Route::any('expenses/{id}/process', 'ExpensesController@process');
     Route::resource('expenses', 'ExpensesController');
     Route::get('stock', 'StockController@index');
 

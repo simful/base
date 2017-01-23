@@ -55,6 +55,10 @@ class ProductsController extends Controller
         $product = new Product($request->all());
         $product->save();
 
+        if ($request->has('picture')) {
+            $this->upload($request, $product->id);
+        }
+
         return redirect('products')
             ->with('message', trans('product.add_success'));
     }
@@ -102,6 +106,10 @@ class ProductsController extends Controller
         $product = Product::find($id);
         $product->fill($request->all());
         $product->save();
+
+        if ($request->has('picture')) {
+            $this->upload($request, $id);
+        }
 
         return redirect('products')
             ->with('message', trans('product.edit_success'));

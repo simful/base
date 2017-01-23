@@ -22,9 +22,9 @@ class CreateExpensesTable extends Migration
             $table->date('date')->nullable();
             $table->string('reference_number')->nullable();
             $table->date('due_date')->nullable();
-            $table->boolean('paid')->default(true);
+            $table->boolean('paid')->default(false);
             $table->string('payment_method')->nullable();
-            $table->string('notes')->nullable();
+            $table->string('description')->nullable();
             $table->decimal('amount', 18, 2)->default(0);
             $table->timestamps();
         });

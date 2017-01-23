@@ -90,4 +90,16 @@ class AccountController extends Controller
 
         return redirect('/accounts');
     }
+
+    public function getDefaults()
+    {
+        $defaults = [];
+        return view('accounts.defaults', compact('defaults'));
+    }
+
+    public function setDefaults(Request $request)
+    {
+        $defaults = [];
+        return back();
+    }
 }

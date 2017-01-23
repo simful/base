@@ -10,22 +10,32 @@
 			@yield('title')
 		</h2>
 
+		@unless($is_edit)
+			<form class="form" action="{{ url('products') }}" method="post">
+		@endunless
+
 		<div class="row">
 			<div class="col-md-4 col-lg-3">
 				<div class="box">
 					<div class="box-body">
 						<img src="{{ $product->picture }}" class="img img-responsive" style="max-height: 300px"/>
 						<hr>
-						<form action="{{ url('products/' . $product->id . '/upload') }}" method="post" enctype="multipart/form-data">
+						@if ($is_edit)
+							<form action="{{ url('products/' . $product->id . '/upload') }}" method="post" enctype="multipart/form-data">
+								<div class="form-group">
+									<input type="file" name="picture">
+								</div>
+
+								<button type="submit" class="btn btn-primary">
+									<i class="fa fa-upload"></i>
+									Upload
+								</button>
+							</form>
+						@else
 							<div class="form-group">
 								<input type="file" name="picture">
 							</div>
-
-							<button type="submit" class="btn btn-primary">
-								<i class="fa fa-upload"></i>
-								Upload
-							</button>
-						</form>
+						@endif
 					</div>
 				</div>
 			</div>
@@ -33,8 +43,6 @@
 				@if ($is_edit)
 					<form class="form" action="{{ url('products/' . $product->id) }}" method="post">
 						<input type="hidden" name="_method" value="put">
-				@else
-					<form class="form" action="{{ url('products') }}" method="post">
 				@endif
 					<div class="box">
 						<div class="box-body">
@@ -96,8 +104,13 @@
 							</button>
 						</div>
 					</div>
-				</form>
+				@if ($is_edit)
+					</form>
+				@endif
 			</div>
 		</div>
+		@if ($is_edit)
+			</form>
+		@endif
 	</div>
 @endsection

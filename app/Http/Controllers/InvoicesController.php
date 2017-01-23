@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Invoice, InvoiceDetail, Contact, Product;
-use Auth;
+use Auth, DateTime;
 
 class InvoicesController extends Controller
 {
@@ -41,7 +41,9 @@ class InvoicesController extends Controller
     public function create()
     {
         $is_edit = false;
-        $invoice = new Invoice;
+        $invoice = new Invoice([
+            'due_date' => new DateTime
+        ]);
         $customers = Contact::orderBy('name')->get();
         return view('invoices.form', compact('invoice', 'customers', 'is_edit'));
     }
@@ -137,7 +139,7 @@ class InvoicesController extends Controller
             'product_id' => 'required_without_all:description',
             'description' => 'required_without_all:product_id',
             'qty' => 'required|numeric',
-            //'price' => 'required|numeric',
+            'price' => 'numeric',
         ]);
 
         $product = Product::find($request->product_id);
@@ -176,5 +178,9 @@ class InvoicesController extends Controller
         return $invoice;
     }
 
-
+    public function showPayForm($id)
+    {
+        $invoice = Invoice::find($id);
+        return view('invoices.pay', compact('invoice'));
+    }
 }

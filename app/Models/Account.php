@@ -8,11 +8,13 @@ class Account extends Model
     public $fillable = ['id', 'name', 'account_group_id'];
     public static $rules = ['name' => 'required'];
 
-    function transactions() {
+    function transactions()
+    {
         return $this->hasMany('TransactionDetail');
     }
 
-    function group() {
+    function group()
+    {
         return $this->belongsTo('AccountGroup', 'account_group_id');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Expense;
-use Account;
+use Account, Transaction, TransactionDetail;
 use Auth;
 
 class ExpensesController extends Controller
@@ -20,8 +20,9 @@ class ExpensesController extends Controller
     {
         $is_edit = false;
         $expense = new Expense;
-        $accounts = Account::all();
-        return view('expenses.form', compact('expense', 'accounts', 'is_edit'));
+        $source_accounts = Account::whereAccountGroupId(1)->get();
+        $expense_accounts = Account::whereAccountGroupId(9)->get();
+        return view('expenses.form', compact('expense', 'source_accounts', 'expense_accounts', 'is_edit'));
     }
 
     public function store(Request $request)
@@ -43,8 +44,9 @@ class ExpensesController extends Controller
     {
         $is_edit = true;
         $expense = Expense::find($id);
-        $accounts = Account::all();
-        return view('expenses.form', compact('expense', 'accounts', 'is_edit'));
+        $source_accounts = Account::whereAccountGroupId(1)->get();
+        $expense_accounts = Account::whereAccountGroupId(9)->get();
+        return view('expenses.form', compact('expense', 'source_accounts', 'expense_accounts', 'is_edit'));
     }
 
     public function update(Request $request, $id)
@@ -68,5 +70,37 @@ class ExpensesController extends Controller
         $expense->delete();
 
         return $expense;
+    }
+
+    public function process($id)
+    {
+        // post to journal
+        $expense = Expense::find($id);
+        if ($expense->paid) return;
+
+        $transaction = new Transaction;
+        $transaction->user_id = Auth::id();
+        $transaction->description = $expense->description;
+        $transaction->save();
+
+        $details = [
+            new TransactionDetail([
+                'account_id' =>  $expense->expense_account_id, // expense
+                'debit' => $expense->amount,
+                'credit' => 0
+            ]),
+            new TransactionDetail([
+                'account_id' => $expense->source_account_id, // cash/bank accounts
+                'debit' => 0,
+                'credit' => $expense->amount
+            ])
+        ];
+
+        $transaction->details()->saveMany($details);
+
+        $expense->paid = true;
+        $expense->save();
+
+        return $transaction;
     }
 }
