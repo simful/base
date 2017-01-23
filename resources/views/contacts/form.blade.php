@@ -41,35 +41,36 @@
 					</div>
 
 					<div class="form-group">
-						<label for="phone" class="control-label">Phone</label>
+						<label for="phone" class="control-label text-regular">Phone</label>
 						<input id="phone" type="text" name="phone" value="{{ old('phone', $contact->phone) }}" class="form-control">
 					</div>
 
 					<div class="form-group">
-						<label for="email" class="control-label">Email</label>
+						<label for="email" class="control-label text-regular">Email</label>
 						<input id="email" type="email" name="email" value="{{ old('email', $contact->email) }}" class="form-control">
 					</div>
 
 					<div class="form-group">
-						<label for="address" class="control-label">Address</label>
+						<label for="address" class="control-label text-regular">Address</label>
 						<input id="address" type="text" name="address" value="{{ old('address', $contact->address) }}" class="form-control">
 					</div>
 
 					<div class="form-group">
-						<label for="city" class="control-label">City</label>
+						<label for="city" class="control-label text-regular">City</label>
 						<input id="city" type="text" name="city" value="{{ old('city', $contact->city) }}" class="form-control">
 					</div>
 
 					<div class="form-group">
-						<label for="state" class="control-label">State/Province</label>
+						<label for="state" class="control-label text-regular">State/Province</label>
 						<input id="state" type="text" name="state" value="{{ old('state', $contact->state) }}" class="form-control">
 					</div>
 
 					<div class="form-group">
-						<label for="country" class="control-label">Country</label>
+						<label for="country" class="control-label text-regular">Country</label>
 						<input id="country" type="text" name="country" value="{{ old('country', $contact->country) }}" class="form-control">
 					</div>
-
+				</div>
+				<div class="box-footer">
 					<button type="submit" class="btn btn-primary">
 						<i class="fa fa-check"></i>
 						Save Changes
@@ -79,8 +80,8 @@
 						<i class="fa fa-times"></i>
 						Cancel
 					</button>
-				</form>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 @endsection

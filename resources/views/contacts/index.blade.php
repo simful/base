@@ -27,7 +27,6 @@
 							<th>Name</th>
 							<th>Email</th>
 							<th>Phone</th>
-							<th>Address</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -37,7 +36,6 @@
 								<td>{{ $contact->name }}</td>
 								<td>{{ $contact->email }}</td>
 								<td>{{ $contact->phone }}</td>
-								<td>{{ $contact->address }} {{ $contact->city }} {{ $contact->state }} {{ $contact->country }}</td>
 								<td class="actions">
 									<a class="btn btn-default" href="/contacts/{{ $contact->id }}/edit">
 										<i class="fa fa-pencil"></i>

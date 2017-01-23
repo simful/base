@@ -18,10 +18,10 @@
 		</div>
 		<div class="box">
 			<div class="box-body">
-				<table class="table table-bordered">
+				<table class="table">
 					<thead>
 						<tr>
-							<th>No</th>
+							<th class="text-center">No</th>
 							<th>Account Name</th>
 							<th>Group</th>
 							<th>Debit/Credit</th>
@@ -32,7 +32,7 @@
 					<tbody>
 						@foreach ($accounts as $account)
 						<tr>
-							<td>{{ $account->id }}</td>
+							<td class="text-center">{{ $account->id }}</td>
 							<td><a href="{{ url('accounts/' . $account->id) }}">{{ $account->name }}</a></td>
 							<td>{{ $account->group->name }}</td>
 							<td>{{ $account->group->position }}</td>
