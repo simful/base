@@ -76,7 +76,7 @@
 			$('.delete-expense').click(function() {
 				var expenseId = $(this).attr('data-id');
 				if (confirm('Are you sure you want to delete ' + expenseId + '?')) {
-					$.ajax('/products/' + expenseId, {
+					$.ajax('/expenses/' + expenseId, {
 						method: 'DELETE',
 						complete: function() {
 							location.reload();
