@@ -14,19 +14,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $sales = DB::select(
+        $sales = DB::connection('tenant')->select(
             "SELECT
                 (SELECT sum(invoice_details.price) FROM invoices, invoice_details WHERE invoices.id = invoice_details.invoice_id AND invoices.paid = 0) as unpaid,
                 (SELECT sum(invoice_details.price) FROM invoices, invoice_details WHERE invoices.id = invoice_details.invoice_id AND invoices.due_date = CURDATE()) as due,
                 (SELECT sum(invoice_details.price) FROM invoices, invoice_details WHERE invoices.id = invoice_details.invoice_id AND invoices.paid = 1) as paid")[0];
 
-        $purchases = DB::select(
+        $purchases = DB::connection('tenant')->select(
             "SELECT
                 (SELECT sum(purchase_details.price) FROM purchases, purchase_details WHERE purchases.id = purchase_details.purchase_id AND purchases.paid = 0) as unpaid,
                 (SELECT sum(purchase_details.price) FROM purchases, purchase_details WHERE purchases.id = purchase_details.purchase_id AND purchases.due_date = CURDATE()) as due,
                 (SELECT sum(purchase_details.price) FROM purchases, purchase_details WHERE purchases.id = purchase_details.purchase_id AND purchases.paid = 1) as paid")[0];
 
-        $expenses = DB::select(
+        $expenses = DB::connection('tenant')->select(
             "SELECT accounts.name, SUM(amount) as total FROM expenses JOIN accounts ON expenses.expense_account_id = accounts.id GROUP BY expense_account_id"
         );
 

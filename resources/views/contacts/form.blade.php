@@ -10,6 +10,13 @@
 			@yield('title')
 		</h2>
 
+		@if ($is_edit)
+			<form class="form" action="{{ url('contacts/' . $contact->id) }}" method="post">
+				<input type="hidden" name="_method" value="put">
+		@else
+			<form class="form" action="{{ url('contacts') }}" method="post">
+		@endif
+
 		<div class="box">
 			<div class="box-body">
 				@if (count($errors) > 0)
@@ -20,13 +27,6 @@
 				            @endforeach
 				        </ul>
 				    </div>
-				@endif
-
-				@if ($is_edit)
-					<form class="form" action="{{ url('contacts/' . $contact->id) }}" method="post">
-						<input type="hidden" name="_method" value="put">
-				@else
-					<form class="form" action="{{ url('contacts') }}" method="post">
 				@endif
 
 					@if (Request::has('next'))

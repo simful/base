@@ -33,7 +33,7 @@ class ReportController extends Controller
     {
         $group = $request->get('group');
 
-        $query = DB::table('transaction_details')
+        $query = DB::connection('tenant')->table('transaction_details')
             ->whereAccountId(7010)
             ->join('transactions', 'transactions.id', '=', 'transaction_details.transaction_id');
 
@@ -59,7 +59,7 @@ class ReportController extends Controller
     {
 		$group = $request->get('group');
 
-        $query = DB::table('transaction_details')
+        $query = DB::connection('tenant')->table('transaction_details')
             ->whereAccountId(1030)
             ->where('debit', '>', 0)
             ->join('transactions', 'transactions.id', '=', 'transaction_details.transaction_id');
@@ -122,7 +122,7 @@ class ReportController extends Controller
             GROUP BY transaction_details.account_id
             ORDER BY accounts.id";
 
-        return DB::select($items, [ 'startDate' => $this->startDate, 'endDate' => $this->endDate, 'group' => $account_group_id ]);
+        return DB::connection('tenant')->select($items, [ 'startDate' => $this->startDate, 'endDate' => $this->endDate, 'group' => $account_group_id ]);
     }
 
     public function incomeStatement()
@@ -157,7 +157,7 @@ class ReportController extends Controller
 			OR transactions.created_at = NULL
 			GROUP BY accounts.id";
 
-		$data = DB::select($query, [$this->startDate, $this->endDate]);
+		$data = DB::connection('tenant')->select($query, [$this->startDate, $this->endDate]);
 
         $totals = (object)[
             'debit' => 0,
