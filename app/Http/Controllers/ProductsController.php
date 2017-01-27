@@ -52,7 +52,7 @@ class ProductsController extends Controller
             'sell_price' => 'required|numeric'
         ]);
 
-        $product = new Product($request->all());
+        $product = new Product($request->except('picture'));
         $product->save();
 
         if ($request->has('picture')) {
@@ -104,7 +104,7 @@ class ProductsController extends Controller
         ]);
 
         $product = Product::find($id);
-        $product->fill($request->all());
+        $product->fill($request->except('picture'));
         $product->save();
 
         if ($request->has('picture')) {

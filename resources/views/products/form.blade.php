@@ -11,7 +11,7 @@
 		</h2>
 
 		@unless($is_edit)
-			<form class="form" action="{{ url('products') }}" method="post">
+			<form class="form" action="{{ url('products') }}" method="post" enctype="multipart/form-data">
 		@endunless
 
 		<div class="row">
