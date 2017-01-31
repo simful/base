@@ -10,16 +10,14 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-Route::get('test', function() {
-    return Setting::get('default_cogs_account');
-});
-
 Route::get('/', function () {
     if (Auth::check())
         return redirect('home');
     else
         return redirect('login');
 });
+
+Route::get('demo', 'HomeController@demo');
 
 Auth::routes();
 

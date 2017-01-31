@@ -37,4 +37,9 @@ class HomeController extends Controller
 
         return view('home', compact('sales', 'purchases', 'expenses', 'transactions', 'cash', 'products', 'invoices'));
     }
+
+    public function demo()
+    {
+        return view('auth.login', ['demo' => true]);
+    }
 }
