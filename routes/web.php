@@ -59,7 +59,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::any('expenses/{id}/process', 'ExpensesController@process');
     Route::resource('expenses', 'ExpensesController');
-    Route::get('stock', 'StockController@index');
+    Route::resource('stock', 'StockController');
 
     Route::get('reports/sales', 'ReportController@sales');
     Route::get('reports/purchase', 'ReportController@purchase');

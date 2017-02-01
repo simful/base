@@ -14,19 +14,22 @@
 						<tr>
 							<th>Product</th>
 							<th class="text-right">Stock</th>
-							<th class="text-right">Avg Buy Price</th>
-							<th class="text-right">Sell Price</th>
-							<th class="text-right">Recommended Sell Price</th>
+							<th class="text-right">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach ($products as $product)
 							<tr>
-								<td>{{ $product->name }}</td>
+								<td>
+									<a href='{{ url("stock/$product->id") }}'>{{ $product->name }}</a>
+								</td>
 								<td class="text-right">{{ $product->stock }}</td>
-								<td class="text-right">{{ m($product->avg_buy_price) }}</td>
-								<td class="text-right">{{ m($product->sell_price) }}</td>
-								<td class="text-right">{{ m(0) }}</td>
+								<td class="actions">
+									<a href='{{ url("/stock/$product->id/edit") }}' class="btn btn-default">
+										<i class="fa fa-pencil fa-btn"></i>
+										Edit
+									</a>
+								</td>
 							</tr>
 						@endforeach
 					</tbody>

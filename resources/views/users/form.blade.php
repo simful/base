@@ -41,6 +41,8 @@
 
 			<hr>
 
+			<div class="alert alert-info">Leave these fields blank if you don't want to change password.</div>
+
 			<div class="form-group">
 				<label class="control-label" for="password">Password</label>
 				<input class="form-control" type="password" id="password" name="password">

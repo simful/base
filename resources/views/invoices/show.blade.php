@@ -7,31 +7,31 @@
 @section('content')
 	<div class="container">
 
-		<a href="{{ url('/invoices') }}">
+		<a href="{{ url('/invoices') }}" class="hidden-print">
 			{{ trans('invoice.back_to_invoices') }}
 		</a>
 
 		<h2>@yield('title')</h2>
 
 		<div class="row">
-			<div class="col-md-8 col-lg-9">
+			<div class="col-md-8 col-lg-9 col-xs-12">
 				<div class="box">
 					<div class="box-body">
 						<div class="row">
-							<div class="col-md-3">
+							<div class="col-xs-6 col-md-3">
 								<label>{{ trans('invoice.order_by') }}</label>
 								<p>{{ $invoice->customer->name }}</p>
 							</div>
-							<div class="col-md-3">
+							<div class="col-xs-6 col-md-3">
 								<label>{{ trans('invoice.order_date') }}</label>
 								<p>{{ d($invoice->created_at) }}</p>
 							</div>
-							<div class="col-md-3">
+							<div class="col-xs-6 col-md-3">
 								<label>{{ trans('invoice.invoice') }} #</label>
 								<p>{{ $invoice->id }}</p>
 							</div>
 
-							<div class="col-md-3">
+							<div class="col-xs-6 col-md-3">
 								<label>{{ trans('invoice.payment_method') }}</label>
 								<p>{{ $invoice->payment_method }}</p>
 							</div>
@@ -157,7 +157,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4 col-lg-3">
+			<div class="col-md-4 col-lg-3 hidden-print">
 				@include('invoices.actions')
 			</div>
 		</div>

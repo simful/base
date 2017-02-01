@@ -18,4 +18,9 @@ class Product extends Model
 		else
 			return url('/img/upload_icon.png');
 	}
+
+	public function stockHistory()
+	{
+		return $this->hasMany('StockHistory');
+	}
 }

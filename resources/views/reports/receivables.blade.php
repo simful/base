@@ -38,7 +38,7 @@
 						@endforeach
 						<tr>
 							<th>Total</th>
-							<th colspan="4" class="text-right">{{ m($total) }}</th>
+							<th colspan="5" class="text-right">{{ m($total) }}</th>
 						</tr>
 					</tbody>
 				</table>
