@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use DB, Charts;
 use Invoice, Product, Purchase, Expense;
 
 class ReportController extends Controller
@@ -92,11 +92,31 @@ class ReportController extends Controller
 
     public function expenses(Request $request)
     {
-        $data['expenseGroups'] = Expense::groupBy('expense_account_id')->whereBetween('created_at', [$this->startDate, $this->endDate])->get();
-        $data['expenses'] = Expense::orderBy('created_at')->whereBetween('created_at', [$this->startDate, $this->endDate])->get();
+        $data['expenseGroups'] = DB::connection('tenant')->select(
+            "SELECT accounts.name, SUM(amount) as aggregate FROM expenses JOIN accounts ON expenses.expense_account_id = accounts.id GROUP BY expense_account_id"
+        );
+
+        foreach ($data['expenseGroups'] as $group) {
+            $labels[] = preg_replace(['/Biaya/', '/Beban/'], ['', ''], $group->name);
+            $values[] = $group->aggregate;
+        }
+
+        $data['groupChart'] = Charts::create('pie', 'chartjs')
+            ->title('Expenses by Category')
+            ->labels($labels)
+            ->values($values)
+            ->height(400)
+            ->width(0)
+            ->responsive(false);
+
+        $data['expenses'] = Expense::with('expense_account')
+            ->orderBy('created_at')
+            ->whereBetween('created_at', [$this->startDate, $this->endDate])
+            ->paginate();
+
         $data['startDate'] = $this->startDate;
         $data['endDate'] = $this->endDate;
-        return json_encode($data);
+
         return view('reports.expenses', $data);
     }
 

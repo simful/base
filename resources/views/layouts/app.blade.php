@@ -22,6 +22,22 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+
+    <!-- Scripts -->
+    <script src="/js/app.js"></script>
+    <script src="/lib/selectize/dist/js/standalone/selectize.min.js"></script>
+    <script src="/lib/moment/min/moment.min.js"></script>
+    <script src="/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/lib/chart.js/dist/Chart.bundle.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('.selectize-single').selectize();
+            $('.datepicker').datetimepicker({
+                format: 'YYYY-MM-DD'
+            });
+		});
+	</script>
+    @yield('scripts')
 </head>
 <body>
     <div id="app">
@@ -139,6 +155,10 @@
                                     </li>
 
                                     <li>
+                                        <a href="{{ url('reports/expenses') }}">Expense Report</a>
+                                    </li>
+
+                                    <li>
                                         <a href="{{ url('reports/stock') }}">Stock Report</a>
                                     </li>
 
@@ -204,19 +224,6 @@
         @yield('content')
     </div>
 
-    <!-- Scripts -->
-    <script src="/js/app.js"></script>
-    <script src="/lib/selectize/dist/js/standalone/selectize.min.js"></script>
-    <script src="/lib/moment/min/moment.min.js"></script>
-    <script src="/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-	<script>
-		$(document).ready(function() {
-			$('.selectize-single').selectize();
-            $('.datepicker').datetimepicker({
-                format: 'YYYY-MM-DD'
-            });
-		});
-	</script>
-    @yield('scripts')
+
 </body>
 </html>
