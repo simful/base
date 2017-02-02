@@ -75,7 +75,7 @@ $factory->define(InvoiceDetail::class, function (Faker\Generator $fakerd) use ($
         'product_id' => $faker->numberBetween(1, 10),
         'description' => $faker->sentence,
         'qty' => $faker->randomElement([1,1,1,1,2,2,2,3,3,4]),
-        'price' => $price + $faker->numberBetween(1, 50) * 1000,
+        'price' => $price + ($price * rand(1, 100) / 100),
     ];
 });
 
@@ -124,9 +124,20 @@ $factory->define(Refund::class, function (Faker\Generator $fakerd) use ($faker) 
 $factory->define(Product::class, function (Faker\Generator $fakerd) use ($faker) {
     $buy_price = $faker->numberBetween(1, 1000) * 1000;
     return [
-        'name' => $faker->colorName,
+        'name' => $faker->randomElement(['Mouse', 'Headset', 'Keyboard', 'Speaker', 'USB', 'HDD']) . ' ' .
+                    $faker->randomElement(['Razer', 'Logitech', 'SonicGear', 'Genius', 'Asus', 'Acer', 'Dell', 'Toshiba']) . ' ' .
+                    $faker->randomElement(['Black', 'Blue', 'Red', 'Green']),
         'buy_price' => $buy_price,
         'sell_price' =>  $buy_price + ($buy_price * $faker->numberBetween(1, 30) * 0.01),
         'description' => $faker->realText,
+    ];
+});
+
+$factory->define(Expense::class, function (Faker\Generator $fakerd) use ($faker) {
+    return [
+        'source_account_id' => $faker->randomElement([1010, 1040, 1050, 1060, 1070, 1080]),
+        'expense_account_id' => $faker->randomElement([9010, 9020, 9030, 9040, 9050, 9060, 9070]),
+        'description' => $faker->sentence,
+        'amount' => $faker->numberBetween(1, 1000 * 1000)
     ];
 });

@@ -9,8 +9,12 @@
 		<div class="box">
 			<div class="box-body">
 				<div>
+					<span class="pull-right">
+						@include('reports.range_picker')
+					</span>
 					<h2>@yield('title')</h2>
 				</div>
+				<hr>
 				<table class="table">
 					<tbody>
 						<tr>

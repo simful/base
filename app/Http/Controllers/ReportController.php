@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use Invoice, Product, Purchase;
+use Invoice, Product, Purchase, Expense;
 
 class ReportController extends Controller
 {
@@ -45,6 +45,10 @@ class ReportController extends Controller
                 ->groupBy('transaction_id');
         }
 
+        if ($request->has('startDate')) {
+            $query->whereBetween('created_at', [$request->startDate, $request->endDate]);
+        }
+
         $data = $query->get();
 
         return view('reports.sales', [
@@ -72,6 +76,10 @@ class ReportController extends Controller
                 ->groupBy('transaction_id');
         }
 
+        if ($request->has('startDate')) {
+            $query->whereBetween('created_at', [$request->startDate, $request->endDate]);
+        }
+
         $data = $query->get();
 
         return view('reports.purchases', [
@@ -80,6 +88,16 @@ class ReportController extends Controller
 			'startDate' => $this->startDate,
 			'endDate' => $this->endDate,
 		]);
+    }
+
+    public function expenses(Request $request)
+    {
+        $data['expenseGroups'] = Expense::groupBy('expense_account_id')->whereBetween('created_at', [$this->startDate, $this->endDate])->get();
+        $data['expenses'] = Expense::orderBy('created_at')->whereBetween('created_at', [$this->startDate, $this->endDate])->get();
+        $data['startDate'] = $this->startDate;
+        $data['endDate'] = $this->endDate;
+        return json_encode($data);
+        return view('reports.expenses', $data);
     }
 
     public function stock()
@@ -139,7 +157,12 @@ class ReportController extends Controller
             'expenses' => 0,
         ];
 
-        return view('reports.income_statement', compact('data', 'totals'));
+        return view('reports.income_statement', [
+            'data' => $data,
+            'totals' => $totals,
+            'startDate' => $this->startDate,
+            'endDate' => $this->endDate
+        ]);
     }
 
     public function trialBalance()
