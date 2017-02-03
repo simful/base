@@ -183,4 +183,10 @@ class InvoicesController extends Controller
         $invoice = Invoice::find($id);
         return view('invoices.pay', compact('invoice'));
     }
+
+    public function print($id)
+    {
+        $invoice = Invoice::find($id);
+        return view('invoices.print', compact('invoice'));
+    }
 }

@@ -75,7 +75,7 @@
 			@endif
 
 			<li>
-				<a href="#" onclick="window.print()">
+				<a href="{{ url("invoices/$invoice->id/print") }}" target="_blank">
 					<i class="fa fa-print fa-icon"></i>
 					Print
 				</a>

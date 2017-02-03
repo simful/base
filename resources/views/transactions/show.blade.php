@@ -13,10 +13,18 @@
 		<h2>@yield('title')</h2>
 		<div class="box">
 			<div class="box-body">
-				<div class="form-group">
-					<label for="description" class="control-label">Description</label>
-					<input type="text" class="form-control" value="{{ $transaction->description }}">
-				</div>
+				<form action="{{ url("transactions/$transaction->id") }}" method="post">
+					<input type="hidden" name="_method" value="PUT">
+					<div class="form-group">
+						<label for="description" class="control-label">Description</label>
+						<input type="text" class="form-control" name="description" value="{{ $transaction->description }}">
+					</div>
+
+					<button class="btn btn-primary" type="submit">
+						<i class="fa fa-check"></i>
+						Save Changes
+					</button>
+				</form>
 
 				<hr>
 

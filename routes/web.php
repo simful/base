@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('invoices/receipt/{id}', 'InvoicesController@receipt');
     Route::get('invoices/{id}/pay', 'InvoicesController@showPayForm');
     Route::post('invoices/{id}/pay', 'InvoicesController@pay');
+    Route::get('invoices/{id}/print', 'InvoicesController@print');
     Route::resource('invoices', 'InvoicesController');
 
     Route::post('purchases/add-item/{id}', 'PurchaseController@addItem');

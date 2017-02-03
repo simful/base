@@ -50,6 +50,19 @@ class TransactionController extends Controller
         return view('transactions.show', compact('transaction', 'accounts', 'predictedCredit', 'predictedDebit'));
     }
 
+    function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'description' => 'required'
+        ]);
+
+        $transaction = Transaction::find($id);
+        $transaction->fill($request->all());
+        $transaction->save();
+
+        return redirect("/transactions/$transaction->id");
+    }
+
     function destroy($id)
     {
         $transaction = Transaction::find($id);

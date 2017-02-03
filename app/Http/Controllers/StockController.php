@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Product, Auth, StockHistory;
+use Invoice, Purchase;
 
 class StockController extends Controller
 {
@@ -57,5 +58,18 @@ class StockController extends Controller
         }
 
         return redirect('stock');
+    }
+
+    public function updateFromSales(Request $request, $id)
+    {
+        // ambil invoice
+        $invoice = Invoice::find($id);
+
+        
+    }
+
+    public function updateFromPurchase(Request $request, $id)
+    {
+
     }
 }
