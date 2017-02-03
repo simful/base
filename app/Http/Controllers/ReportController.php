@@ -31,17 +31,24 @@ class ReportController extends Controller
 
     public function sales(Request $request)
     {
-        $group = $request->get('group');
+        $group = $request->get('detail', true);
+        $chart = false;
 
         $query = DB::connection('tenant')->table('transaction_details')
             ->whereAccountId(7010)
             ->join('transactions', 'transactions.id', '=', 'transaction_details.transaction_id');
 
-        if ($group == 1) {
-            $query = $query->select([DB::raw('DATE(created_at) as created_at'), DB::raw('sum(credit - debit) as amount')])
+        if ($group) {
+            $query = $query->select([DB::raw('DATE(created_at) as created_at'), DB::raw('sum(credit - debit) as aggregate')])
                 ->groupBy(DB::raw('DATE(created_at)'));
+
+            $chart = Charts::database($query->get(), 'bar', 'chartjs')
+                ->height(400)
+                ->preaggregated(true)
+                ->labels(['Sales'])
+                ->groupByDay();
         } else {
-            $query = $query->select([DB::raw('DATE(created_at) as created_at'), DB::raw('sum(credit - debit) as amount'), 'transactions.description'])
+            $query = $query->select([DB::raw('DATE(created_at) as created_at'), DB::raw('sum(credit - debit) as aggregate'), 'transactions.description'])
                 ->groupBy('transaction_id');
         }
 
@@ -56,6 +63,7 @@ class ReportController extends Controller
 			'group' => $group,
 			'startDate' => $this->startDate,
 			'endDate' => $this->endDate,
+            'chart' => $chart,
 		]);
     }
 

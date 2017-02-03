@@ -41,7 +41,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top" id="main-menu">
+        <nav class="navbar navbar-default navbar-fixed-top" id="main-menu">
             <div class="container">
                 <div class="navbar-header">
 

@@ -9,13 +9,13 @@ return [
     */
 
     'default' => [
-        'type'          => 'highcharts',
-        'library'       => 'google',
+        'type'          => 'bar',
+        'library'       => 'chartjs',
         'element_label' => 'Element',
         'title'         => '',
         'height'        => 700,
-        'width'         => 1000,
-        'responsive'    => true,
+        'width'         => 0,
+        'responsive'    => false,
     ],
 
     /*

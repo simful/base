@@ -15,6 +15,8 @@
 					<h2>@yield('title')</h2>
 				</div>
 				<hr>
+				{!! $chart ? $chart->render() : '' !!}				
+				<hr>
 				<table class="table">
 					<thead>
 						<tr>
@@ -32,7 +34,7 @@
 								@unless ($group)
 									<td>{{ $row->description }}</td>
 								@endunless
-								<td class="text-right">{{ m($row->amount) }}</td>
+								<td class="text-right">{{ m($row->aggregate) }}</td>
 							</tr>
 						@endforeach
 					</tbody>
