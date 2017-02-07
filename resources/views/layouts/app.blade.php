@@ -97,11 +97,11 @@
                                     <li class="dropdown-header">Sales & Purchases</li>
 
                                     <li>
-                                        <a href="{{ url('invoices') }}">Sales</a>
+                                        <a href="{{ url('invoices') }}">Sales Invoices</a>
                                     </li>
 
                                     <li>
-                                        <a href="{{ url('purchases') }}">Purchases</a>
+                                        <a href="{{ url('purchases') }}">Purchase Orders</a>
                                     </li>
 
                                     <li>

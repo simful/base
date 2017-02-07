@@ -100,6 +100,9 @@ class ReportController extends Controller
 
     public function expenses(Request $request)
     {
+        $labels = [];
+        $values = [];
+
         $data['expenseGroups'] = DB::connection('tenant')->select(
             "SELECT accounts.name, SUM(amount) as aggregate FROM expenses JOIN accounts ON expenses.expense_account_id = accounts.id GROUP BY expense_account_id"
         );

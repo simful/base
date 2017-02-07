@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('title')
-	Purchases
+	Purchase Orders
 @endsection
 
 @section('content')
 	<div class="container">
-		<h2>Purchases</h2>
+		<h2>Purchase Orders</h2>
 		<div class="mbot20">
 			<a class="btn btn-primary" href="{{ url('purchases/create') }}">
 				<i class="fa fa-plus"></i>
-				Purchase
+				Purchase Order
 			</a>
 		</div>
 

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
 	public $connection = 'tenant';
-	public $fillable = ['name', 'buy_price', 'sell_price', 'description', 'is_active'];
+	public $fillable = ['name', 'buy_price', 'sell_price', 'description', 'is_active', 'type'];
 	public $appends = ['picture'];
 	protected $casts = [
 		'is_active' => 'boolean'
@@ -22,5 +22,22 @@ class Product extends Model
 	public function stockHistory()
 	{
 		return $this->hasMany('StockHistory');
+	}
+
+	public static function updateStock($productId, $amount)
+	{
+		$product = Product::find($productId);
+
+		//if ($product->type == 'Product') {
+		$product->stock += $amount;
+		$product->save();
+
+		StockHistory::create([
+			'in' => $product->stock > $oldStock ? $product->stock - $oldStock : 0,
+			'out' => $product->stock < $oldStock ? $oldStock - $product->stock : 0,
+			'product_id' => $product->id,
+			'user_id' => Auth::id(),
+			'description' => $request->reason
+		]);
 	}
 }

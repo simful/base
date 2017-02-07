@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('title')
-	Invoices
+	Sales Invoices
 @endsection
 
 @section('content')
 	<div class="container">
-		<h2>Invoices</h2>
+		<h2>@yield('title')</h2>
 
 		<div class="mbot20">
 			<a href="{{ url('invoices/create') }}" class="btn btn-primary">

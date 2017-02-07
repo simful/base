@@ -48,13 +48,7 @@ class StockController extends Controller
             $product->stock = $request->stock;
             $product->save();
 
-            StockHistory::create([
-                'in' => $product->stock > $oldStock ? $product->stock - $oldStock : 0,
-                'out' => $product->stock < $oldStock ? $oldStock - $product->stock : 0,
-                'product_id' => $product->id,
-                'user_id' => Auth::id(),
-                'description' => $request->reason
-            ]);
+
         }
 
         return redirect('stock');
@@ -65,7 +59,12 @@ class StockController extends Controller
         // ambil invoice
         $invoice = Invoice::find($id);
 
-        
+        // cari detail item, kemudian update
+        foreach ($invoice->details as $item) {
+            if ($item->product_id) { // && $item->product) {
+                Product::updateStock();
+            }
+        }
     }
 
     public function updateFromPurchase(Request $request, $id)
