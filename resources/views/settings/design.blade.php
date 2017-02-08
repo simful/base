@@ -22,12 +22,12 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="control-label">Header</label>
-			<textarea class="form-control" rows="6" value="{{ $settings->header_content }}" name="header_content"></textarea>
+			<textarea class="form-control" rows="6" name="header_content">{{ $settings->header_content }}</textarea>
 		</div>
 
 		<div class="form-group">
 			<label class="control-label">Footer</label>
-			<textarea class="form-control" rows="6" value="{{ $settings->footer_content }}" name="footer_content"></textarea>
+			<textarea class="form-control" rows="6" name="footer_content">{{ $settings->footer_content }}</textarea>
 		</div>
 	</div>
 @stop

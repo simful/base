@@ -32,9 +32,4 @@ class ProfileController extends Controller
 
         return redirect('profile');
     }
-
-    function changePassword(Request $request)
-	{
-
-	}
 }

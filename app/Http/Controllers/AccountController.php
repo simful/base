@@ -51,6 +51,7 @@ class AccountController extends Controller
         $transactions = TransactionDetail::with('transaction')
             ->whereAccountId($account->id)
             ->paginate(15);
+
         return view('accounts.show', compact('account', 'transactions'));
     }
 

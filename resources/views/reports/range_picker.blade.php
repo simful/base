@@ -3,7 +3,7 @@
 		<label class="control-label hide">From Date</label>
 		<div class="row">
 			<div class="col-md-4">
-				<input type="text" name="startDate" class="form-control datepicker" value="{{ $startDate }}">
+				<input type="text" name="startDate" class="form-control datepicker" value="{{ Report::startDate() }}">
 			</div>
 		</div>
 	</div>
@@ -14,7 +14,7 @@
 		<label class="control-label hide">To Date</label>
 		<div class="row">
 			<div class="col-md-4">
-				<input type="text" name="endDate" class="form-control datepicker" value="{{ $endDate }}">
+				<input type="text" name="endDate" class="form-control datepicker" value="{{ Report::endDate() }}">
 			</div>
 		</div>
 	</div>

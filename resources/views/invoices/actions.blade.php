@@ -10,9 +10,15 @@
 				<li>
 					<a href="#" class="invoice-action" data-action="send" data-id="{{ $invoice->id }}">
 						<i class="fa fa-arrow-right fa-icon"></i>
-						Process Invoice
+						Finalize Invoice
+						<small class="help-block">
+							Finishes creating invoice and its items.
+						</small>
 					</a>
+
 				</li>
+
+				<hr>
 
 				<li>
 					<a href="{{ url("invoices/$invoice->id/edit") }}">
@@ -52,22 +58,18 @@
 
 			@if ($invoice->status == 'In Progress')
 				<li>
-					<a href="#" onclick="window.print()">
-						<i class="fa fa-times fa-icon"></i>
-						Cancel and Refund
-					</a>
-				</li>
-
-				<li>
 					<a href="#" class="invoice-action" data-action="complete" data-id="{{ $invoice->id }}">
 						<i class="fa fa-check-circle fa-icon"></i>
 						Complete Transaction
 					</a>
 				</li>
 
-				<hr>
-
-
+				<li>
+					<a href="#" onclick="window.print()">
+						<i class="fa fa-times fa-icon"></i>
+						Cancel and Refund
+					</a>
+				</li>
 			@endif
 
 			@if ($invoice->status == 'Completed')
@@ -97,3 +99,23 @@
 		</ul>
 	</div>
 </div>
+
+@if ($invoice->paid)
+	<div class="alert alert-success">
+		<i class="fa fa-check fa-btn"></i> This invoice is fully paid.
+	</div>
+@else
+	<div class="alert alert-warning">
+		<i class="fa fa-times fa-btn"></i> No payment received yet.
+	</div>
+@endif
+
+@if ($invoice->stock_updated)
+	<div class="alert alert-success">
+		<i class="fa fa-check fa-btn"></i> Stock updated.
+	</div>
+@else
+	<div class="alert alert-warning">
+		<i class="fa fa-times fa-btn"></i> Stock not updated yet.
+	</div>
+@endif

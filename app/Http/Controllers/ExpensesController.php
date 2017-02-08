@@ -76,31 +76,7 @@ class ExpensesController extends Controller
     {
         // post to journal
         $expense = Expense::find($id);
-        if ($expense->paid) return;
 
-        $transaction = new Transaction;
-        $transaction->user_id = Auth::id();
-        $transaction->description = $expense->description;
-        $transaction->save();
-
-        $details = [
-            new TransactionDetail([
-                'account_id' =>  $expense->expense_account_id, // expense
-                'debit' => $expense->amount,
-                'credit' => 0
-            ]),
-            new TransactionDetail([
-                'account_id' => $expense->source_account_id, // cash/bank accounts
-                'debit' => 0,
-                'credit' => $expense->amount
-            ])
-        ];
-
-        $transaction->details()->saveMany($details);
-
-        $expense->paid = true;
-        $expense->save();
-
-        return $transaction;
+        return $expense->postToJournal();
     }
 }

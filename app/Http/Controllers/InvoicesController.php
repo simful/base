@@ -133,6 +133,12 @@ class InvoicesController extends Controller
         return $invoice;
     }
 
+    public function print($id)
+    {
+        $invoice = Invoice::find($id);
+        return view('invoices.print', compact('invoice'));
+    }
+
     public function addItem(Request $request, $id)
     {
         $this->validate($request, [
@@ -146,9 +152,11 @@ class InvoicesController extends Controller
 
         $item = InvoiceDetail::whereInvoiceId($id)->whereProductId($request->product_id)->first();
 
+        // kalau product id sama, tinggal tambah aja quantitynya
         if ($item) {
             $item->qty += $request->qty;
         } else {
+            // masukkan item baru
             $item = new InvoiceDetail($request->all());
             $item->invoice_id = $id;
             $item->price = $product->sell_price;
@@ -184,9 +192,5 @@ class InvoicesController extends Controller
         return view('invoices.pay', compact('invoice'));
     }
 
-    public function print($id)
-    {
-        $invoice = Invoice::find($id);
-        return view('invoices.print', compact('invoice'));
-    }
+
 }

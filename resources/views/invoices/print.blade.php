@@ -23,6 +23,8 @@
 						<p>{{ $invoice->customer->city }}, {{ $invoice->customer->state }}</p>
 					</div>
 					<div class="col-xs-6">
+						<div>{{ Setting::get('header_content') }}</div>
+
 						<p class="text-bold">Invoice #{{ $invoice->id }}</p>
 						<p>Date: {{ d($invoice->created_at) }}</p>
 						<p>Amount Due: <span class="text-bold">{{ m($invoice->total[0]->price) }}</span></p>
@@ -66,6 +68,9 @@
 				<div class="row">
 					<div class="col-xs-6">
 						{{-- remarks --}}
+						<div>
+							{{ Setting::get('footer_content') }}
+						</div>
 					</div>
 					<div class="col-xs-6">
 						{{-- summary --}}
