@@ -27,7 +27,7 @@ class PurchasesReportController extends Controller
 
         $data = $query->get();
 
-        return view('reports.purchase.byDate', compact('data'));
+        return view('reports.purchases.byDate', compact('data'));
 	}
 
 	function detail()
@@ -42,6 +42,6 @@ class PurchasesReportController extends Controller
 
         $data = $query->get();
 
-        return view('reports.purchase.detail', compact('data'));
+        return view('reports.purchases.detail', compact('data'));
 	}
 }

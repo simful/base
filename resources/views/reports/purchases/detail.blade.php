@@ -13,6 +13,7 @@
 						@include('reports.range_picker')
 					</span>
 					<h2>@yield('title')</h2>
+					@include('reports.purchases.nav')
 				</div>
 				<hr>
 				<table class="table">
