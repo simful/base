@@ -81,11 +81,17 @@ class PurchaseController extends Controller
             'price' => 'numeric',
         ]);
 
-        $item = new PurchaseDetail($request->all());
-		$item->purchase_id = $id;
+		$item = PurchaseDetail::wherePurchaseId($id)->whereProductId($request->product_id)->first();
 
-		if ($request->product_id) {
-			$item->price = $request->price > 0 ? $request->price : Product::find($request->product_id)->buy_price;
+		if ($item) {
+			$item->qty += $request->qty;
+		} else {
+			$item = new PurchaseDetail($request->all());
+			$item->purchase_id = $id;
+
+			if ($request->product_id) {
+				$item->price = $request->price > 0 ? $request->price : Product::find($request->product_id)->buy_price;
+			}
 		}
 
         $item->save();

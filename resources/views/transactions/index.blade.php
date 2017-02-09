@@ -61,8 +61,8 @@
 					$.ajax('/transactions/' + $(this).attr('data-id'), {
 						method: 'delete',
 						complete: function(data) {
-							console.log(data);
-							//location.reload();
+							//console.log(data);
+							location.reload();
 						}
 					});
 				}

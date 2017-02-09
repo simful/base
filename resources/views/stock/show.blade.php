@@ -6,11 +6,13 @@
 
 @section('content')
 	<div class="container">
+		<h2>Stock History</h2>
+
 		<a href="{{ url('stock') }}" class="btn btn-default" style="margin-bottom: 20px;">
 			<i class="fa fa-arrow-left"></i>
 			Back to Stock
 		</a>
-
+	
 		<div class="box mtop20">
 			<div class="box-header">
 				{{ $product->name }}

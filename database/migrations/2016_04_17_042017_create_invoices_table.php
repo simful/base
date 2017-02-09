@@ -22,6 +22,7 @@ class CreateInvoicesTable extends Migration
             $table->string('notes')->nullable();
             $table->decimal('amount_paid', 18, 2)->default(0);
             $table->boolean('paid')->default(false);
+            $table->boolean('stock_updated')->default(false);
             $table->timestamps();
         });
 

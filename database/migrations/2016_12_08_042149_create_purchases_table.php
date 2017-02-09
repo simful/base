@@ -24,6 +24,7 @@ class CreatePurchasesTable extends Migration
             $table->date('limit')->nullable();
             $table->enum('status', ['Draft', 'Sent', 'In Progress', 'Shipping', 'Completed', 'Canceled'])->default('Draft');
             $table->boolean('paid')->default(false);
+            $table->boolean('stock_updated')->default(false);
             $table->string('payment_method')->default('Cash');
             $table->string('notes')->nullable();
             $table->decimal('amount_paid', 18, 2)->default(0);

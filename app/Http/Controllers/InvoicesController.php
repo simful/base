@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Invoice, InvoiceDetail, Contact, Product;
+use Invoice, InvoiceDetail, Contact, Product, Account;
 use Auth, DateTime;
 
 class InvoicesController extends Controller
@@ -188,8 +188,17 @@ class InvoicesController extends Controller
 
     public function showPayForm($id)
     {
+        $accounts = Account::all();
+        $cash_accounts = Account::whereAccountGroupId(1)->get();
         $invoice = Invoice::find($id);
-        return view('invoices.pay', compact('invoice'));
+        return view('invoices.pay', compact('invoice', 'cash_accounts', 'accounts'));
+    }
+
+    public function pay(Request $request, $id)
+    {
+        $invoice = Invoice::find($id);
+        $invoice->postToJournal($request);
+        return redirect("invoices/$id");
     }
 
 

@@ -24,20 +24,18 @@ class Product extends Model
 		return $this->hasMany('StockHistory');
 	}
 
-	public static function updateStock($productId, $amount)
+	public function updateStock($amount, $reason)
 	{
-		$product = Product::find($productId);
-
-		//if ($product->type == 'Product') {
-		$product->stock += $amount;
-		$product->save();
+		$oldStock = $this->stock;
+		$this->stock += $amount;
+		$this->save();
 
 		StockHistory::create([
-			'in' => $product->stock > $oldStock ? $product->stock - $oldStock : 0,
-			'out' => $product->stock < $oldStock ? $oldStock - $product->stock : 0,
-			'product_id' => $product->id,
+			'in' => $this->stock > $oldStock ? $this->stock - $oldStock : 0,
+			'out' => $this->stock < $oldStock ? $oldStock - $this->stock : 0,
+			'product_id' => $this->id,
 			'user_id' => Auth::id(),
-			'description' => $request->reason
+			'description' => $reason
 		]);
 	}
 }

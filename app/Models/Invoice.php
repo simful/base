@@ -54,7 +54,7 @@ class Invoice extends Model
         return $relation ? $relation->aggregate : null;
     }
 
-    function post()
+    function postToJournal($request)
     {
         // add transaction journal.
         $transaction = new Transaction;
@@ -64,22 +64,22 @@ class Invoice extends Model
 
         $details = [
             new TransactionDetail([
-                'account_id' => 1010, // asset
+                'account_id' => $request->get('cash_account_id', 1010), // asset
                 'debit' => $this->total[0]->price,
                 'credit' => 0
             ]),
             new TransactionDetail([
-                'account_id' => 7010, // penjualan
+                'account_id' => $request->get('sales_account_id', 7010), // penjualan
                 'debit' => 0,
                 'credit' => $this->total[0]->price
             ]),
             new TransactionDetail([
-                'account_id' => 8010, // hpp
+                'account_id' => $request->get('cogs_account_id', 8010), // hpp
                 'debit' => $this->total[0]->net ?: 0,
                 'credit' => 0
             ]),
             new TransactionDetail([
-                'account_id' => 1030,
+                'account_id' => $request->get('deposit_account_id', 1030),
                 'debit' => 0,
                 'credit' => $this->total[0]->net ?: 0
             ])
@@ -87,28 +87,17 @@ class Invoice extends Model
 
         $transaction->details()->saveMany($details);
 
+        $this->paid = 1;
+        $this->save();
+
         return $transaction;
     }
 
     public function updateStock()
     {
         foreach ($this->details as $detail) {
-            $detail->product->stock -= $detail->qty;
-            $detail->product->save();
+            $detail->product->updateStock($detail->qty * -1, "Invoice #$this->id");
         }
-    }
-
-    public function getActionMap()
-    {
-        $action_map = [
-            'Draft' => ['send', 'delete'],
-            'Sent' => ['confirm-payment', 'cancel'],
-            'In Progress' => ['ship', 'complete', 'cancel'],
-            'Shipping' => ['receive', 'complain'],
-            'Completed' => ['refund']
-        ];
-
-        return $action_map[$this->status];
     }
 
     public function process($action)
@@ -117,16 +106,19 @@ class Invoice extends Model
             case 'delete':
                 $this->destroy();
                 return;
-            case 'confirm-payment':
+            case 'postToJournal':
                 // lock this invoice
-                $this->post();
+                $this->postToJournal();
+                $this->paid = 1;
+                break;
+            case 'updateStock':
                 $this->updateStock();
-                $this->status = 'In Progress';
+                $this->stock_updated = 1;
                 break;
             case 'cancel':
                 $this->status = 'Canceled';
                 break;
-            case 'send':
+            case 'finalize':
                 // prevent empty invoice
                 if ( ! count($this->total[0]) )
                     return;
@@ -140,5 +132,7 @@ class Invoice extends Model
         }
 
         $this->save();
+
+        return $this;
     }
 }
