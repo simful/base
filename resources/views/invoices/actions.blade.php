@@ -100,22 +100,24 @@
 	</div>
 </div>
 
-@if ($invoice->paid)
-	<div class="alert alert-success">
-		<i class="fa fa-check fa-btn"></i> This invoice is fully paid.
-	</div>
-@else
-	<div class="alert alert-warning">
-		<i class="fa fa-times fa-btn"></i> No payment received yet.
-	</div>
-@endif
+@if ($invoice->status != 'Draft')
+	@if ($invoice->paid)
+		<div class="alert alert-success">
+			<i class="fa fa-check fa-btn"></i> This invoice is fully paid.
+		</div>
+	@else
+		<div class="alert alert-warning">
+			<i class="fa fa-times fa-btn"></i> No payment received yet.
+		</div>
+	@endif
 
-@if ($invoice->stock_updated)
-	<div class="alert alert-success">
-		<i class="fa fa-check fa-btn"></i> Stock updated.
-	</div>
-@else
-	<div class="alert alert-warning">
-		<i class="fa fa-times fa-btn"></i> Stock not updated yet.
-	</div>
+	@if ($invoice->stock_updated)
+		<div class="alert alert-success">
+			<i class="fa fa-check fa-btn"></i> Stock updated.
+		</div>
+	@else
+		<div class="alert alert-warning">
+			<i class="fa fa-times fa-btn"></i> Stock not updated yet.
+		</div>
+	@endif
 @endif

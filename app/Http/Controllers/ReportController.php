@@ -5,75 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB, Charts;
 use Invoice, Product, Purchase, Expense;
+use Report;
 
 class ReportController extends Controller
 {
     protected $startDate = null;
     protected $endDate = null;
-
-    public function purchase(Request $request)
-    {
-		$group = $request->get('group');
-
-        $query = DB::connection('tenant')->table('transaction_details')
-            ->whereAccountId(1030)
-            ->where('debit', '>', 0)
-            ->join('transactions', 'transactions.id', '=', 'transaction_details.transaction_id');
-
-        if ($group == 1) {
-            $query = $query->select([DB::raw('DATE(created_at) as created_at'), DB::raw('sum(debit - credit) as amount')])
-                ->groupBy(DB::raw('DATE(created_at)'));
-        } else {
-            $query = $query->select([DB::raw('DATE(created_at) as created_at'), DB::raw('sum(debit - credit) as amount'), 'transactions.description'])
-                ->groupBy('transaction_id');
-        }
-
-        if ($request->has('startDate')) {
-            $query->whereBetween('created_at', [$request->startDate, $request->endDate]);
-        }
-
-        $data = $query->get();
-
-        return view('reports.purchases', [
-			'data' => $data,
-			'group' => $group,
-			'startDate' => $this->startDate,
-			'endDate' => $this->endDate,
-		]);
-    }
-
-    public function expenses(Request $request)
-    {
-        $labels = [];
-        $values = [];
-
-        $data['expenseGroups'] = DB::connection('tenant')->select(
-            "SELECT accounts.name, SUM(amount) as aggregate FROM expenses JOIN accounts ON expenses.expense_account_id = accounts.id GROUP BY expense_account_id"
-        );
-
-        foreach ($data['expenseGroups'] as $group) {
-            $labels[] = preg_replace(['/Biaya/', '/Beban/'], ['', ''], $group->name);
-            $values[] = $group->aggregate;
-        }
-
-        $data['groupChart'] = Charts::create('pie', 'chartjs')
-            ->title('Expenses by Category')
-            ->labels($labels)
-            ->values($values)
-            ->height(400)
-            ->width(0)
-            ->responsive(false);
-
-        $data['expenses'] = Expense::with('expense_account')
-            ->orderBy('created_at')
-            ->whereBetween('created_at', [$this->startDate, $this->endDate])
-            ->paginate();
-
-        $data['startDate'] = $this->startDate;
-        $data['endDate'] = $this->endDate;
-
-        return view('reports.expenses', $data);
-    }
 
     public function stock()
     {
@@ -115,7 +52,7 @@ class ReportController extends Controller
             GROUP BY transaction_details.account_id
             ORDER BY accounts.id";
 
-        return DB::connection('tenant')->select($items, [ 'startDate' => $this->startDate, 'endDate' => $this->endDate, 'group' => $account_group_id ]);
+        return DB::connection('tenant')->select($items, [ 'startDate' => Report::startDate(), 'endDate' => Report::endDate(), 'group' => $account_group_id ]);
     }
 
     public function incomeStatement()
@@ -135,8 +72,8 @@ class ReportController extends Controller
         return view('reports.income_statement', [
             'data' => $data,
             'totals' => $totals,
-            'startDate' => $this->startDate,
-            'endDate' => $this->endDate
+            'startDate' => Report::startDate(),
+            'endDate' => Report::endDate()
         ]);
     }
 
@@ -155,7 +92,7 @@ class ReportController extends Controller
 			OR transactions.created_at = NULL
 			GROUP BY accounts.id";
 
-		$data = DB::connection('tenant')->select($query, [$this->startDate, $this->endDate]);
+		$data = DB::connection('tenant')->select($query, [Report::startDate(), Report::endDate()]);
 
         $totals = (object)[
             'debit' => 0,
