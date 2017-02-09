@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Sales Report
+	Purchases Report - Detailed
 @stop
 
 @section('content')
@@ -15,15 +15,11 @@
 					<h2>@yield('title')</h2>
 				</div>
 				<hr>
-				{!! $chart ? $chart->render() : '' !!}				
-				<hr>
 				<table class="table">
 					<thead>
 						<tr>
 							<th>Date</th>
-							@unless ($group)
-								<th>Description</th>
-							@endunless
+							<th>Description</th>
 							<th class="text-right">Amount</th>
 						</tr>
 					</thead>
@@ -31,10 +27,8 @@
 						@foreach ($data as $row)
 							<tr>
 								<td>{{ d($row->created_at) }}</td>
-								@unless ($group)
-									<td>{{ $row->description }}</td>
-								@endunless
-								<td class="text-right">{{ m($row->aggregate) }}</td>
+								<td>{{ $row->description }}</td>
+								<td class="text-right">{{ m($row->amount) }}</td>
 							</tr>
 						@endforeach
 					</tbody>

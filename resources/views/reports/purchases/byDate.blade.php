@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Purchases Report
+	Purchases Report - By Date
 @stop
 
 @section('content')
@@ -19,9 +19,6 @@
 					<thead>
 						<tr>
 							<th>Date</th>
-							@unless ($group)
-								<th>Description</th>
-							@endunless
 							<th class="text-right">Amount</th>
 						</tr>
 					</thead>
@@ -29,9 +26,6 @@
 						@foreach ($data as $row)
 							<tr>
 								<td>{{ d($row->created_at) }}</td>
-								@unless ($group)
-									<td>{{ $row->description }}</td>
-								@endunless
 								<td class="text-right">{{ m($row->amount) }}</td>
 							</tr>
 						@endforeach

@@ -151,7 +151,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="{{ url('reports/purchase') }}">Purchase Report</a>
+                                        <a href="{{ url('reports/purchases') }}">Purchase Report</a>
                                     </li>
 
                                     <li>

@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('reports/sales/{path?}', 'Reports\SalesReportController@index');
     Route::get('reports/expenses/{path?}', 'Reports\ExpensesReportController@index');
-    Route::get('reports/purchase', 'ReportController@purchase');
+    Route::get('reports/purchases/{path?}', 'Reports\PurchasesReportController@index');
     Route::get('reports/stock', 'ReportController@stock');
     Route::get('reports/receivables', 'ReportController@receivables');
     Route::get('reports/payables', 'ReportController@payables');

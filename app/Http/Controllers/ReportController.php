@@ -11,62 +11,6 @@ class ReportController extends Controller
     protected $startDate = null;
     protected $endDate = null;
 
-    public function __construct(Request $request)
-    {
-        if (!$request->has('startDate')) {
-            $startDate = new \Carbon\Carbon('first day of this month');
-        } else {
-            $startDate = new \Carbon\Carbon($request->get('startDate'));
-        }
-
-        if (!$request->has('endDate')) {
-            $endDate = new \Carbon\Carbon('last day of this month');
-        } else {
-            $endDate = new \Carbon\Carbon($request->get('endDate'));
-        }
-
-        $this->startDate = $startDate->toDateTimeString();
-        $this->endDate = $endDate->toDateTimeString();
-    }
-
-    public function sales(Request $request)
-    {
-        $group = $request->get('detail', true);
-        $chart = false;
-
-        $query = DB::connection('tenant')->table('transaction_details')
-            ->whereAccountId(7010)
-            ->join('transactions', 'transactions.id', '=', 'transaction_details.transaction_id');
-
-        if ($group) {
-            $query = $query->select([DB::raw('DATE(created_at) as created_at'), DB::raw('sum(credit - debit) as aggregate')])
-                ->groupBy(DB::raw('DATE(created_at)'));
-
-            $chart = Charts::database($query->get(), 'bar', 'chartjs')
-                ->height(400)
-                ->preaggregated(true)
-                ->labels(['Sales'])
-                ->groupByDay();
-        } else {
-            $query = $query->select([DB::raw('DATE(created_at) as created_at'), DB::raw('sum(credit - debit) as aggregate'), 'transactions.description'])
-                ->groupBy('transaction_id');
-        }
-
-        if ($request->has('startDate')) {
-            $query->whereBetween('created_at', [$request->startDate, $request->endDate]);
-        }
-
-        $data = $query->get();
-
-        return view('reports.sales', [
-			'data' => $data,
-			'group' => $group,
-			'startDate' => $this->startDate,
-			'endDate' => $this->endDate,
-            'chart' => $chart,
-		]);
-    }
-
     public function purchase(Request $request)
     {
 		$group = $request->get('group');
