@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Product, Image, Auth, File;
+use Product;
+use Image;
+use Auth;
+use File, Storage;
 
 class ProductsController extends Controller
 {
@@ -23,6 +26,7 @@ class ProductsController extends Controller
         }
 
         $products = $products->paginate(5);
+
         return view('products.index', compact('products'));
     }
 
@@ -34,14 +38,16 @@ class ProductsController extends Controller
     public function create()
     {
         $is_edit = false;
-        $product = new Product;
+        $product = new Product();
+
         return view('products.form', compact('product', 'is_edit'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,7 +55,7 @@ class ProductsController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'buy_price' => 'required|numeric',
-            'sell_price' => 'required|numeric'
+            'sell_price' => 'required|numeric',
         ]);
 
         $product = new Product($request->except('picture'));
@@ -66,33 +72,38 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $product = Product::find($id);
+
         return $product;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $is_edit = true;
         $product = Product::find($id);
+
         return view('products.form', compact('product', 'is_edit'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -100,7 +111,7 @@ class ProductsController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'buy_price' => 'required|numeric',
-            'sell_price' => 'required|numeric'
+            'sell_price' => 'required|numeric',
         ]);
 
         $product = Product::find($id);
@@ -118,7 +129,8 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -129,22 +141,27 @@ class ProductsController extends Controller
         return $product;
     }
 
-    function upload(Request $request, $id)
+    public function upload(Request $request, $id)
     {
         // default values:
         $defaults = [
-            'shape' => 'square'
+            'shape' => 'square',
         ];
 
-        if ( ! File::exists(public_path('img/products/' . Auth::user()->agent_id)))
-            mkdir(public_path('img/products/' . Auth::user()->agent_id));
+        if (!File::exists(public_path('img/products'))) {
+            mkdir(public_path('img/products'));
+        }
+
+        if (!File::exists(public_path('img/products/'.Auth::user()->agent_id))) {
+            mkdir(public_path('img/products/'.Auth::user()->agent_id));
+        }
 
         Image::make($request->file('picture'))
             ->resize(null, 512, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 })
-            ->save(public_path('img/products') . '/' . Auth::user()->agent_id . '/' . $id . '.jpg');
+            ->save(public_path('img/products').'/'.Auth::user()->agent_id.'/'.$id.'.jpg');
 
         return redirect()->back();
     }
