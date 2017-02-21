@@ -23,6 +23,8 @@ class CreateInvoicesTable extends Migration
             $table->decimal('amount_paid', 18, 2)->default(0);
             $table->boolean('paid')->default(false);
             $table->boolean('stock_updated')->default(false);
+            $table->boolean('recurring')->default(false);
+            $table->integer('recur_every')->default(30);
             $table->timestamps();
         });
 

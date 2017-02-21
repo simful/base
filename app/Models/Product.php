@@ -5,11 +5,8 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
 	public $connection = 'tenant';
-	public $fillable = ['name', 'buy_price', 'sell_price', 'description', 'is_active', 'type'];
+	public $guarded = ['created_at', 'updated_at'];
 	public $appends = ['picture'];
-	protected $casts = [
-		'is_active' => 'boolean'
-	];
 
 	public function getPictureAttribute()
 	{
@@ -26,6 +23,8 @@ class Product extends Model
 
 	public function updateStock($amount, $reason)
 	{
+		if ($this->type == 'Service') return;
+
 		$oldStock = $this->stock;
 		$this->stock += $amount;
 		$this->save();

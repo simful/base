@@ -74,7 +74,7 @@ class Purchase extends Model
 		{
 			if ($item->product_id) {
 				$product = Product::find($item->product_id);
-				$product->stock += $item->qty;
+				$product->updateStock($item->qty, 'Purchase Order #' . $this->id);
 
 				$product->save();
 			}

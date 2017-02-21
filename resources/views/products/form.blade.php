@@ -84,11 +84,13 @@
 							</div>
 
 							<div class="form-group">
-								<input type="hidden" name="is_active" value="0">
-								<label>
-								    <input type="checkbox" value="1" name="is_active" {{ $product->is_active ? 'checked' : '' }}>
-									Active
+								<label class="control-label">
+									Type
 								</label>
+								<select name="type" id="type" class="form-control">
+								 	<option value="Product" {{ $product->type == 'Product' ? 'selected' : '' }}>Product</option>
+								 	<option value="Service" {{ $product->type == 'Service' ? 'selected' : '' }}>Service</option>
+								</select>
 							</div>
 						</div>
 

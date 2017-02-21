@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->enum('type', ['Product', 'Service'])->default('Product');
 
             // default buy and sell price
             $table->decimal('buy_price', 18, 2)->default(0);
@@ -28,6 +28,9 @@ class CreateProductsTable extends Migration
 
             // current stock
             $table->integer('stock')->default(0);
+
+            // restock treshold
+            $table->integer('restock_treshold')->default(5);
             $table->timestamps();
         });
     }
