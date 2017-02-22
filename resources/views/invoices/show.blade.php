@@ -91,7 +91,10 @@
 								<tbody>
 									@foreach ($invoice->details as $item)
 										<tr>
-											<td>{{ $item->product_id ? $item->product->name : $item->description }}</td>
+											<td>
+												<b>{{ $item->product_id ? $item->product->name : '' }}</b><br>
+												{{ $item->description }}
+											</td>
 											<td class="text-right">{{ $item->qty }}</td>
 											<td class="text-right">{{ m($item->price) }}</td>
 											<td class="text-right">{{ m($item->price * $item->qty) }}</td>
@@ -119,7 +122,7 @@
 												<input type="number" placeholder="Qty" name="qty" class="form-control text-right" value="1">
 											</td>
 											<td>
-												<input type="number" placeholder="Unit Price" name="price" class="form-control">
+												<input type="number" placeholder="Unit Price (optional)" name="price" class="form-control">
 											</td>
 
 											<td class="text-right">
@@ -129,6 +132,11 @@
 												</button>
 											</td>
 											<td></td>
+										</tr>
+										<tr>
+											<td colspan="3" style="border-top: none">
+												<input type="text" placeholder="Description (optional)" name="description" class="form-control">
+											</td>
 										</tr>
 									@endif
 								</tbody>
